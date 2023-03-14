@@ -5,13 +5,15 @@ import Book from "../models/Book";
 // post method
 export const createBook = async (req: Request, res: Response) => {
   try {
-    const { title, thumbnail, language, description, rating } = req.body;
+    const { title, thumbnail, language, description, rating, category } =
+      req.body;
     const newData = new Book({
       title: title,
       thumbnail: thumbnail,
       language: language,
       description: description,
       rating: rating,
+      category: category,
     });
     const newBookData = await bookService.createNewBook(newData);
     res.status(200).json({
