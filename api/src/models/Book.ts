@@ -30,7 +30,7 @@ const BookSchema = new mongoose.Schema({
   category: {
     type: String,
   },
-  /*  gener:{
+  /* gener:{
     {type:GenreSchema},
     ref:"genre"
   } */
