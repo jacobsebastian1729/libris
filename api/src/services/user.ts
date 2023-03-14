@@ -12,8 +12,33 @@ const getUserList = async (): Promise<UserDocument[]> => {
   return User.find();
 };
 
+// for login
+const findUserByEmail = async (
+  userEmail: string
+): Promise<UserDocument | null> => {
+  return User.findOne({ email: userEmail });
+};
+
+const createOrFindUserByEmail = async(payload: Partial<UserDocument>):Promise<UserDocument | null> => {
+    console.log(payload, 'user service payload')
+    const userEmail = payload.email
+    const result = await User.findOne({email: userEmail})
+   if(result) {
+    return result
+   } else {
+    // if no user with that email -> create new user
+    const user = new User({
+        fullName: payload.fullName,
+        email: userEmail
+    })
+    return user.save()
+   }
+}
+
 export default {
   createUser,
   findUserById,
   getUserList,
+  findUserByEmail,
+  createOrFindUserByEmail
 };

@@ -1,18 +1,20 @@
 import mongoose, { Document } from 'mongoose';
 
+import { BookDocument } from './Book';
+
 export type UserDocument = Document & {
   _id: string;
   fullName: string;
   email: string;
   password: string;
-  profile_img: string;
-  about_me: string;
-  followers: string[];
-  following: string[];
   isAdmin: boolean;
   status: string;
-  // comments: CommentsDocument[];
-  // bookShelves: BookDocument[];
+  profile_img?: string;
+  about_me?: string;
+  followers?: string[];
+  following?: string[];
+  bookShelves?: BookDocument[];
+  // comments?: CommentsDocument[];
 };
 
 const Schema = mongoose.Schema;
@@ -21,8 +23,7 @@ const UserSchema = new Schema({
     type: Schema.Types.ObjectId,
   },
   fullName: {
-    type: String,
-    required: true,
+    type: String
   },
   email: {
     type: String,
@@ -33,18 +34,6 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  profile_img: {
-    type: String,
-  },
-  about_me: {
-    type: String,
-  },
-  followers: [{ 
-    type: Schema.Types.ObjectId, 
-    ref: 'User' }],
-  following: [{ 
-    type: Schema.Types.ObjectId, 
-    ref: 'User' }],
   isAdmin: {
     type: Boolean,
     default: false,
@@ -54,8 +43,31 @@ const UserSchema = new Schema({
     enum: ['active', 'inactive', 'banned'],
     default: 'inactive',
   },
-  //   comments: {},
-  //   bookShelves: {}
+  profile_img: {
+    type: String,
+  },
+  about_me: {
+    type: String,
+  },
+  followers: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  following: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
+  bookShelves: [
+    {
+        type: Schema.Types.ObjectId,
+        ref: 'Book'
+    }
+  ]
+  //   comments: [{}],
 });
 
 export default mongoose.model<UserDocument>('User', UserSchema);
