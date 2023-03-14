@@ -23,8 +23,7 @@ const UserSchema = new Schema({
     type: Schema.Types.ObjectId,
   },
   fullName: {
-    type: String,
-    required: true,
+    type: String
   },
   email: {
     type: String,

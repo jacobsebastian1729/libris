@@ -1,10 +1,15 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 
-import User from '../models/User';
+import User, { UserDocument } from '../models/User';
 import UserServices from '../services/user';
 import { generateToken } from '../util/generateToken';
+
+dotenv.config();
+const JWT_SECRET = process.env.JWT_SECRET as string;
 
 export const createUserController = async (req: Request, res: Response) => {
   try {
@@ -86,12 +91,34 @@ export const logInWithPassword = async (req: Request, res: Response) => {
     }
 
     // all good -> token
-    const token = generateToken(userData.email)
+    const token = generateToken(userData.email);
 
     res.status(200).json({
-        userData, token, message: 'Login Success.'
-    })
+      userData,
+      token,
+      message: 'Login success.',
+    });
   } catch (err) {
     res.status(500).json({ message: 'Sorry. Login failed.' });
+  }
+};
+
+export const googleAuthenticate = async (req: Request, res: Response) => {
+  try {
+    const userData = req.user as UserDocument;
+    if (!userData) {
+      res.json({ message: 'User does not exist.' });
+      return;
+    }
+    const token = jwt.sign(
+      {
+        email: req.body.email,
+      },
+      JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+    res.json({ userData, token, message: 'Login success.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Google login failed' });
   }
 };
