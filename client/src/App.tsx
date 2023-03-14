@@ -13,6 +13,7 @@ import Navbar from './components/Navbar/Navbar';
 import Footer from './components/Footer/Footer';
 import MyBooks from './pages/MyBooks';
 import OneBookShelf from './components/BookShelves/OneBookShelf';
+import LogIn from './components/User/LogIn';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path='/:userId/achievment' element={<MyAchievement />} />
           <Route path='/:userId/setting' element={<UserInformation />} />
           <Route path='/bookshelves/all' element={<BookShelves />} />
+          <Route path='/login' element={<LogIn />} />
           <Route
             path='/bookshelves/:bookshelvesId'
             element={<OneBookShelf />}
