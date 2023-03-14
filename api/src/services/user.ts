@@ -12,8 +12,16 @@ const getUserList = async (): Promise<UserDocument[]> => {
   return User.find();
 };
 
+// for login
+const findUserByEmail = async (
+  userEmail: string
+): Promise<UserDocument | null> => {
+  return User.findOne({ email: userEmail });
+};
+
 export default {
   createUser,
   findUserById,
   getUserList,
+  findUserByEmail
 };
