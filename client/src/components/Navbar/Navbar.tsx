@@ -20,6 +20,7 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import PeopleIcon from '@mui/icons-material/People';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 import { AppDispatch, RootState } from '../../redux/store';
 import { userActions } from '../../redux/slices/user';
@@ -162,22 +163,23 @@ export default function Navbar() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
-                {userLogin.isAdmin === true ? 
-                <Link to='/dashboard'>
-                <MenuItem onClick={handleClose}>
-                  <ListItemIcon>
-                    <AddBoxIcon fontSize='small' />
-                  </ListItemIcon>
-                  DASHBOARD
-                </MenuItem>
-                </Link> : null}
-                
-                <MenuItem onClick={handleClose}>
-                  <ListItemIcon>
-                    <AddBoxIcon fontSize='small' />
-                  </ListItemIcon>
-                  Subscription
-                </MenuItem>
+                {userLogin.isAdmin === true ? (
+                  <Link
+                    to='/dashboard'
+                    style={{
+                      textDecoration: 'none',
+                      color: 'green',
+                      fontWeight: '900',
+                    }}
+                  >
+                    <MenuItem onClick={handleClose}>
+                      <ListItemIcon>
+                        <DashboardIcon fontSize='small' />
+                      </ListItemIcon>
+                      DASHBOARD
+                    </MenuItem>
+                  </Link>
+                ) : null}
                 <Link
                   to={userId ? `/${userId}/books` : `/mybooks`}
                   style={{ textDecoration: 'none', color: 'black' }}
@@ -189,7 +191,6 @@ export default function Navbar() {
                     My Books
                   </MenuItem>
                 </Link>
-                <Divider />
                 <Link
                   to={`/${userId}/friends`}
                   style={{ textDecoration: 'none', color: 'black' }}
@@ -201,6 +202,15 @@ export default function Navbar() {
                     Friends
                   </MenuItem>
                 </Link>
+
+                <Divider />
+
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <AddBoxIcon fontSize='small' />
+                  </ListItemIcon>
+                  Subscription
+                </MenuItem>
                 <Link
                   to={`/${userId}/setting`}
                   style={{ textDecoration: 'none', color: 'black' }}
@@ -212,6 +222,7 @@ export default function Navbar() {
                     Settings
                   </MenuItem>
                 </Link>
+
                 <MenuItem
                   onClick={() => {
                     handleClose();
