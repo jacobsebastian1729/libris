@@ -1,16 +1,33 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
+import Box from '@mui/material/Box';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@mui/material/IconButton';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Avatar from '@mui/material/Avatar';
+import { deepPurple } from '@mui/material/colors';
+import Tooltip from '@mui/material/Tooltip';
+import Divider from '@mui/material/Divider';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+import PeopleIcon from '@mui/icons-material/People';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+
+import { AppDispatch, RootState } from '../../redux/store';
+import { userActions } from '../../redux/slices/user';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    borderTop: '5px solid black',
   },
   title: {
     flexGrow: 1,
@@ -36,14 +53,41 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
+  const userLogin = useSelector((state: RootState) => state.user.loginUser);
+  const [userId, setUserId] = useState<string | null>(null);
+  console.log('userLogin', userLogin);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const logoutHandler = () => {
+    dispatch(userActions.logoutAction());
+    navigate('/');
+  };
+
+  useEffect(() => {
+    if (!userLogin) {
+      return;
+    }
+    if (userLogin) {
+      setUserId(userLogin._id);
+    }
+  }, []);
 
   return (
     <div className={classes.root}>
       <AppBar position='static' className={classes.appBar}>
         <Toolbar>
           <Link to='/' style={{ textDecoration: 'none' }}>
-            <Typography variant='h6' className={classes.title}>
-              Logo here
+            <Typography variant='h3' className={classes.title}>
+              LIBRIS
             </Typography>
           </Link>
           <Link to='/search' style={{ textDecoration: 'none' }}>
@@ -56,7 +100,10 @@ export default function Navbar() {
               Books
             </Button>
           </Link>
-          <Link to={`/:userId/books`} style={{ textDecoration: 'none' }}>
+          <Link
+            to={userId ? `/${userId}/books` : `/mybooks`}
+            style={{ textDecoration: 'none' }}
+          >
             <Button color='inherit' className={classes.navButton}>
               MyBooks
             </Button>
@@ -68,21 +115,123 @@ export default function Navbar() {
           </Link>
           <div style={{ flexGrow: 1 }}></div>
           {}
-          <Link to='/login' style={{ textDecoration: 'none' }}>
-            <Button color='inherit' className={classes.rightNavButton}>
-              Login
-            </Button>
-          </Link>
-          {/* <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={handleMenuClose}>Subscription</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My Achievement</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
-          </Menu> */}
+          {userLogin ? (
+            <div>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  textAlign: 'center',
+                }}
+              >
+                <Tooltip title='Account settings'>
+                  <IconButton
+                    onClick={handleClick}
+                    size='small'
+                    sx={{ ml: 2 }}
+                    aria-controls={open ? 'account-menu' : undefined}
+                    aria-haspopup='true'
+                    aria-expanded={open ? 'true' : undefined}
+                  >
+                    <Avatar
+                      sx={{
+                        bgcolor: deepPurple[500],
+                        marginRight: '1rem',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      OP
+                    </Avatar>
+                  </IconButton>
+                </Tooltip>
+              </Box>
+
+              <Menu
+                anchorEl={anchorEl}
+                id='account-menu'
+                open={open}
+                onClose={handleClose}
+                onClick={handleClose}
+                PaperProps={{
+                  elevation: 0,
+                  style: {
+                    overflow: 'visible',
+                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                  },
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+              >
+                {userLogin.isAdmin === true ? 
+                <Link to='/dashboard'>
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <AddBoxIcon fontSize='small' />
+                  </ListItemIcon>
+                  DASHBOARD
+                </MenuItem>
+                </Link> : null}
+                
+                <MenuItem onClick={handleClose}>
+                  <ListItemIcon>
+                    <AddBoxIcon fontSize='small' />
+                  </ListItemIcon>
+                  Subscription
+                </MenuItem>
+                <Link
+                  to={userId ? `/${userId}/books` : `/mybooks`}
+                  style={{ textDecoration: 'none', color: 'black' }}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <ListItemIcon>
+                      <AutoStoriesIcon fontSize='small' />
+                    </ListItemIcon>
+                    My Books
+                  </MenuItem>
+                </Link>
+                <Divider />
+                <Link
+                  to={`/${userId}/friends`}
+                  style={{ textDecoration: 'none', color: 'black' }}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <ListItemIcon>
+                      <PeopleIcon fontSize='small' />
+                    </ListItemIcon>
+                    Friends
+                  </MenuItem>
+                </Link>
+                <Link
+                  to={`/${userId}/setting`}
+                  style={{ textDecoration: 'none', color: 'black' }}
+                >
+                  <MenuItem onClick={handleClose}>
+                    <ListItemIcon>
+                      <Settings fontSize='small' />
+                    </ListItemIcon>
+                    Settings
+                  </MenuItem>
+                </Link>
+                <MenuItem
+                  onClick={() => {
+                    handleClose();
+                    logoutHandler();
+                  }}
+                >
+                  <ListItemIcon>
+                    <Logout fontSize='small' />
+                  </ListItemIcon>
+                  Log Out
+                </MenuItem>
+              </Menu>
+            </div>
+          ) : (
+            <Link to='/login' style={{ textDecoration: 'none' }}>
+              <Button color='inherit' className={classes.rightNavButton}>
+                Login
+              </Button>
+            </Link>
+          )}
 
           <Brightness4Icon className={classes.darkThemeIcon} />
         </Toolbar>

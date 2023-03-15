@@ -34,11 +34,16 @@ const userSlice = createSlice({
     loginAction: (state, action) => {
       state.loginSuccess = action.payload;
     },
-    getLoginUser: (state,action) => {
-      state.loginUser = action.payload
+    getLoginUser: (state, action) => {
+      state.loginUser = action.payload;
     },
     setMessage: (state, action) => {
       state.serverMessage = action.payload;
+    },
+    logoutAction: (state) => {
+      state.loginUser = null;
+      state.loginSuccess = false;
+      localStorage.removeItem('userToken');
     },
   },
 });
