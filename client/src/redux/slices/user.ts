@@ -31,6 +31,9 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    getAllUsers: (state, action) => {
+      state.users = action.payload
+    },
     loginAction: (state, action) => {
       state.loginSuccess = action.payload;
     },

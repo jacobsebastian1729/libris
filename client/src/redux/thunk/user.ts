@@ -45,3 +45,11 @@ export function loginUserThunk(user: LoginUserType) {
       .catch((err) => dispatch(userActions.setMessage('Server error')));
   };
 }
+
+export function getAllUserData() {
+  return async (dispatch: AppDispatch) => {
+    const response = await axios.get(`${url}`)
+    const userData = await response.data
+    dispatch(userActions.getAllUsers(userData))
+  }
+}
