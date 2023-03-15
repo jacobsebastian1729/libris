@@ -16,7 +16,7 @@ router.get('/', getUserListController);
 router.get('/:userId', getUserByUserIdController);
 router.post('/login', logInWithPassword);
 router.post(
-  '/goole-login',
+  '/google-login',
   passport.authenticate('google-id-token', { session: false }),
   googleAuthenticate
 );
