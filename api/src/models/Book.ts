@@ -6,12 +6,11 @@ export type BookDocument = Document & {
   language: string;
   description: string;
   rating: number;
-  // author:AuthorDocument
-  //comments:CommentsDocuments
-  //genre:GenreDocuments
+  genre: string;
+  author: string;
 };
 
-const BookSchema = new mongoose.Schema({
+export const BookSchema = new mongoose.Schema({
   title: {
     type: String,
   },
@@ -30,16 +29,17 @@ const BookSchema = new mongoose.Schema({
   category: {
     type: String,
   },
-  /*  gener:{
-    {type:GenreSchema},
-    ref:"genre"
-  } */
+  genre: {
+    type: String,
+    enum: ["Novel", "children", "Romance"],
+    default: "Novel",
+  },
+  // },
   /*  comments:[ {type:CommentsSchema}],
-  ref:"comments"),
+  ref:"comments"),*/
   author: {
-    {type:AuthorSchema},
-    ref: "author",
-  }, */
+    type: String,
+  },
 });
 
 export default mongoose.model<BookDocument>("Book", BookSchema);

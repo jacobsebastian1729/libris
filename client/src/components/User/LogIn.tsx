@@ -1,12 +1,14 @@
 import React from 'react';
-
-import './LogIn.css';
+import { Link } from 'react-router-dom';
+// MUI
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import TextField from '@mui/material/TextField';
 import { Button, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import ForwardIcon from '@mui/icons-material/Forward';
+// module
+import './LogIn.css';
 
 export default function LogIn() {
   return (
@@ -26,6 +28,7 @@ export default function LogIn() {
           }}
         >
           <Typography>Log In or Register</Typography>
+
           <div className='login-form'>
             <TextField
               sx={{ width: '70%' }}
@@ -42,18 +45,39 @@ export default function LogIn() {
               variant='standard'
             />
           </div>
-          <Button>LOG IN</Button>
+          <Button
+            style={{
+              maxWidth: 300,
+              maxHeight: 50,
+              minWidth: 250,
+              minHeight: 50,
+            }}
+          >
+            LOG IN
+          </Button>
           <div
             style={{
-              marginTop: '2rem',
+              marginTop: '1rem',
               width: '50%',
               borderTop: '1px solid black',
             }}
           >
+            <br />
             <Typography>If you don't have an account.</Typography>
           </div>
-          <Link to='/register' style={{textDecoration: 'none'}}>
-            <Button>Register</Button>
+          <Link to='/register' style={{ textDecoration: 'none' }}>
+            <Button
+              style={{
+                maxWidth: 300,
+                maxHeight: 50,
+                minWidth: 250,
+                minHeight: 50,
+                marginTop: '1rem',
+              }}
+            >
+              <ForwardIcon />
+              Register
+            </Button>
           </Link>
         </CardContent>
       </Card>
