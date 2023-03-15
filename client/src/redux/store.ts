@@ -1,7 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
+import { bookReducer } from "./slices/book ";
 
 const store = configureStore({
-  reducer: {},
+  reducer: {
+    bookItem: bookReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
 });
