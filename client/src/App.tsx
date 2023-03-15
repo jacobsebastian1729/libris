@@ -15,6 +15,8 @@ import MyBooks from './pages/MyBooks';
 import OneBookShelf from './components/BookShelves/OneBookShelf';
 import LogIn from './components/User/LogIn';
 import Register from './components/User/Register';
+import Friends from './components/Friends/Friends';
+import DashBoard from './components/DashBoard/DashBoard';
 
 function App() {
   return (
@@ -32,10 +34,12 @@ function App() {
           <Route path='/bookshelves/all' element={<BookShelves />} />
           <Route path='/login' element={<LogIn />} />
           <Route path='/register' element={<Register />} />
+          <Route path='/:userId/friends' element={<Friends />} />
           <Route
             path='/bookshelves/:bookshelvesId'
             element={<OneBookShelf />}
           />
+          <Route path='/dashboard' element={<DashBoard />} />
         </Routes>
         <Footer />
       </BrowserRouter>
