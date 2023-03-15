@@ -14,6 +14,7 @@ import Footer from './components/Footer/Footer';
 import MyBooks from './pages/MyBooks';
 import OneBookShelf from './components/BookShelves/OneBookShelf';
 import LogIn from './components/User/LogIn';
+import Register from './components/User/Register';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path='/:userId/setting' element={<UserInformation />} />
           <Route path='/bookshelves/all' element={<BookShelves />} />
           <Route path='/login' element={<LogIn />} />
+          <Route path='/register' element={<Register />} />
           <Route
             path='/bookshelves/:bookshelvesId'
             element={<OneBookShelf />}
