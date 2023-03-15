@@ -5,6 +5,11 @@ export type UserType = {
     confirmPassword: string;
 }
 
+export type LoginUserType = {
+    email: string;
+    password: string;
+  };
+
 export type UserDataType = {
     _id: string;
     email: string;
@@ -36,5 +41,5 @@ export type BookList = BookType & {
 
 export type BookShelf = {
     userId: string;
-    bookList: BookList[];
+    bookList: BookType[];
 }

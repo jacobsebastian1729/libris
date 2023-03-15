@@ -1,23 +1,16 @@
 //  product slice here
 import { createSlice } from '@reduxjs/toolkit';
 
-import { UserType, UserDataType } from '../../types/usertype';
+import { UserDataType } from '../../types/type';
 
 type InitialState = {
-  user: UserType;
   users: UserDataType[];
   loginSuccess: boolean;
   serverMessage: string;
-  loginUser: UserDataType;
+  loginUser: UserDataType | null;
 };
 
 const initialState: InitialState = {
-  user: {
-    fullName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-  },
   users: [],
   loginSuccess: false,
   serverMessage: '',
@@ -30,6 +23,7 @@ const initialState: InitialState = {
     followers: [''],
     following: [''],
     bookShelves: [''],
+    // comments: []
   },
 };
 
@@ -38,7 +32,10 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     loginAction: (state, action) => {
-      state.loginUser = action.payload;
+      state.loginSuccess = action.payload;
+    },
+    getLoginUser: (state,action) => {
+      state.loginUser = action.payload
     },
     setMessage: (state, action) => {
       state.serverMessage = action.payload;

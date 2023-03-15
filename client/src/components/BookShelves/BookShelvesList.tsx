@@ -6,9 +6,9 @@ import { getBookShelfList } from "../../redux/thunk/bookShelf";
 
 export default function BookShelvesList() {
   const userInformation = useSelector(
-    (state: RootState) => state.user.userInformation
+    (state: RootState) => state.user.loginUser
   );
-  const userId = userInformation._id;
+  const userId = userInformation?._id as string;
   const bookShelfList = useSelector((state: RootState) => state.bookShelf.bookShelfList);
 
   const dispatch = useDispatch<AppDispatch>();

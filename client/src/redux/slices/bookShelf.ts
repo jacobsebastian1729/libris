@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import { BookShelf } from "../../types/type";
-import { UserDataType } from "../../types/usertype";
+import { UserDataType } from "../../types/type";
 
 type InitialState = {
     bookShelfList: BookShelf[];
@@ -11,18 +11,31 @@ type InitialState = {
 const initialState: InitialState = {
     bookShelfList: [
         {
+            userId: '',
             bookList: [{
-                _id: "",
+                _id:'',
                 title: "",
                 thumbnail: "",
                 description: "",
                 rating: 0,
                 genre: "",
                 author: "",
+                language: '',
             }]
         },
     ],
-    loginUser: []
+    loginUser: {
+        _id: '',
+        email: '',
+        fullName: '',
+        profile_img: '',
+        about_me: '',
+        isAdmin: false,
+        status: 'inactive',
+        followers: [],
+        following: [],
+        bookShelves: []
+      }
 
 };
 

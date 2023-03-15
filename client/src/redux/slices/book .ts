@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BookType } from "../../types/bookType";
+import { createSlice } from "@reduxjs/toolkit";
+import { BookType } from "../../types/type";
 
 type InitialState = {
   Book: BookType[];
