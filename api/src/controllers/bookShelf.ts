@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 import BookShelf from "../models/Bookshelf";
-import BookShelfService from "../services/bookshelf";
+import BookShelfService from "../services/bookShelf";
 
 export const createBookShelf = async (
     req: Request,
