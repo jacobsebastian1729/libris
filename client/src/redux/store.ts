@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import { bookReducer } from "./slices/book ";
 import userReducer from './slices/user'
+import bookShelfListReducer from "./slices/bookShelf";
 
 
 const store = configureStore({
   reducer: {
     bookItem: bookReducer,
-    user: userReducer
+    user: userReducer,
+    bookShelf: bookShelfListReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
