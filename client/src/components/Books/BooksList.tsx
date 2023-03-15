@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { BookType } from "../../types/bookType";
+import { BookType } from "../../types/type";
 import { AppDispatch, RootState } from "../../redux/store";
 import { fetchbookData } from "../../redux/thunk/book";
 import BooksListItem from "./BooksListItem";

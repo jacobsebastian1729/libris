@@ -14,7 +14,7 @@ import Checkbox from '@mui/material/Checkbox';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 // module
-import { UserType } from '../../types/usertype';
+import { UserType } from '../../types/type';
 import { AppDispatch } from '../../redux/store';
 import { registerUser } from '../../redux/thunk/user';
 
@@ -36,12 +36,12 @@ const RegisterSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'Password does not match')
     .required('Password confirmation is required'),
-  termsAndConditions: Yup.bool().oneOf(
-    [true], 'You need to accept the terms and conditions'),
+  // termsAndConditions: Yup.bool().oneOf(
+  //   [true], 'You need to accept the terms and conditions'),
 });
 
 export default function Register() {
-  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(true);
+  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate()
   const registerHandler = (user: UserType) => {
