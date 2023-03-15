@@ -1,5 +1,5 @@
 import React from "react";
-import { BookType } from "../../types/type";
+import { BookType } from "../../types/bookType";
 import { Typography, Rating } from "@mui/material";
 import { AppDispatch, RootState } from "../../redux/store";
 import { useSelector } from "react-redux";
