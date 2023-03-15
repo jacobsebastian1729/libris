@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Formik, Form } from 'formik';
@@ -8,7 +8,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import TextField from '@mui/material/TextField';
-import { Button, Typography } from '@material-ui/core';
+import { Button, InputAdornment, Typography } from '@material-ui/core';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Checkbox from '@mui/material/Checkbox';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -37,12 +37,11 @@ const RegisterSchema = Yup.object().shape({
     .oneOf([Yup.ref('password')], 'Password does not match')
     .required('Password confirmation is required'),
   termsAndConditions: Yup.bool().oneOf(
-    [true],
-    'You need to accept the terms and conditions'
-  ),
+    [true], 'You need to accept the terms and conditions'),
 });
 
 export default function Register() {
+  const [passwordVisibility, setPasswordVisibility] = useState<boolean>(true);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate()
   const registerHandler = (user: UserType) => {
@@ -81,6 +80,7 @@ export default function Register() {
                 email: '',
                 password: '',
                 confirmPassword: '',
+                termsAndConditions: false,
               }}
               validationSchema={RegisterSchema}
               onSubmit={(values) => {
@@ -118,10 +118,25 @@ export default function Register() {
                     sx={{ width: '60%' }}
                     id='outlined-basic'
                     label='Password'
-                    type='password'
+                    type={passwordVisibility ? 'text' : 'password'}
                     name='password'
                     variant='standard'
                     onChange={handleChange}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          {passwordVisibility ? (
+                            <VisibilityIcon
+                              onClick={() => setPasswordVisibility(false)}
+                            />
+                          ) : (
+                            <VisibilityOffIcon
+                              onClick={() => setPasswordVisibility(true)}
+                            />
+                          )}
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                   {errors.password && touched.password ? (
                     <p className='input-error'>*{errors.password}</p>
@@ -130,10 +145,25 @@ export default function Register() {
                     sx={{ width: '60%' }}
                     id='outlined-basic'
                     label='Confirm Password'
-                    type='password'
+                    type={passwordVisibility ? 'text' : 'password'}
                     name='confirmPassword'
                     variant='standard'
                     onChange={handleChange}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position='end'>
+                          {passwordVisibility ? (
+                            <VisibilityIcon
+                              onClick={() => setPasswordVisibility(false)}
+                            />
+                          ) : (
+                            <VisibilityOffIcon
+                              onClick={() => setPasswordVisibility(true)}
+                            />
+                          )}
+                        </InputAdornment>
+                      ),
+                    }}
                   />
                   {errors.confirmPassword && touched.confirmPassword ? (
                     <p className='input-error'>*{errors.confirmPassword}</p>
@@ -148,7 +178,11 @@ export default function Register() {
                     >
                       <Checkbox {...label} name='termsAndConditions' />
                       <Typography>I agree to the Terms of Service</Typography>
+                      
                     </div>
+                    {errors.termsAndConditions ? (
+                    <p className='input-error'>*{errors.termsAndConditions}</p>
+                  ) : null}
                     <Button
                       type='submit'
                       style={{
