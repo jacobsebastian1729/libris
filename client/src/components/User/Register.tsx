@@ -9,7 +9,7 @@ import { Button, Typography } from '@material-ui/core';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Checkbox from '@mui/material/Checkbox';
 
-const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+const label = { inputProps: { 'aria-label': 'Checkbox' } };
 
 export default function Register() {
   return (
@@ -64,7 +64,7 @@ export default function Register() {
             
           </div>
           <div style={{display: 'flex', alignItems: 'center'}}>
-          <Checkbox {...label} disabled />
+          <Checkbox {...label} />
             <Typography>I agree to the Terms of Service</Typography>
           </div>
           <Button

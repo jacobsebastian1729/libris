@@ -5,7 +5,6 @@ import {
   createUserController,
   getUserByUserIdController,
   getUserListController,
-  googleAuthenticate,
   logInWithPassword,
 } from '../controllers/user';
 
@@ -15,10 +14,10 @@ router.post('/', createUserController);
 router.get('/', getUserListController);
 router.get('/:userId', getUserByUserIdController);
 router.post('/login', logInWithPassword);
-router.post(
-  '/google-login',
-  passport.authenticate('google-id-token', { session: false }),
-  googleAuthenticate
-);
+// router.post(
+//   '/google-login',
+//   passport.authenticate('google-id-token', { session: false }),
+//   googleAuthenticate
+// );
 
 export default router;
