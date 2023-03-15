@@ -1,6 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 
 import { BookDocument } from './Book';
+import { CommentDocument } from './Comments';
 
 export type UserDocument = Document & {
   _id: string;
@@ -14,7 +15,7 @@ export type UserDocument = Document & {
   followers?: string[];
   following?: string[];
   bookShelves?: BookDocument[];
-  // comments?: CommentsDocument[];
+  comments?: CommentDocument[];
 };
 
 const Schema = mongoose.Schema;
@@ -23,7 +24,7 @@ const UserSchema = new Schema({
     type: Schema.Types.ObjectId,
   },
   fullName: {
-    type: String
+    type: String,
   },
   email: {
     type: String,
@@ -63,11 +64,16 @@ const UserSchema = new Schema({
   ],
   bookShelves: [
     {
-        type: Schema.Types.ObjectId,
-        ref: 'Book'
-    }
-  ]
-  //   comments: [{}],
+      type: Schema.Types.ObjectId,
+      ref: 'Book',
+    },
+  ],
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
 });
 
 export default mongoose.model<UserDocument>('User', UserSchema);

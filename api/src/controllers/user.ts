@@ -103,22 +103,22 @@ export const logInWithPassword = async (req: Request, res: Response) => {
   }
 };
 
-export const googleAuthenticate = async (req: Request, res: Response) => {
-  try {
-    const userData = req.user as UserDocument;
-    if (!userData) {
-      res.json({ message: 'User does not exist.' });
-      return;
-    }
-    const token = jwt.sign(
-      {
-        email: req.body.email,
-      },
-      JWT_SECRET,
-      { expiresIn: '1h' }
-    );
-    res.json({ userData, token, message: 'Login success.' });
-  } catch (error) {
-    res.status(500).json({ message: 'Google login failed' });
-  }
-};
+// export const googleAuthenticate = async (req: Request, res: Response) => {
+//   try {
+//     const userData = req.user as UserDocument;
+//     if (!userData) {
+//       res.json({ message: 'User does not exist.' });
+//       return;
+//     }
+//     const token = jwt.sign(
+//       {
+//         email: req.body.email,
+//       },
+//       JWT_SECRET,
+//       { expiresIn: '1h' }
+//     );
+//     res.json({ userData, token, message: 'Login success.' });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Google login failed' });
+//   }
+// };
