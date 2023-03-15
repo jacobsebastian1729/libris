@@ -13,8 +13,8 @@ app.use(cors());
 
 // routes
 app.use("/bookshelves", bookShelfRouter)
-app.use("/comments", commentsRouter);
+app.use("/user", userRouter);
 app.use("/books", booksRouter);
-app.use('/user', userRouter);
+app.use("/comments", commentsRouter);
 
 export default app;
