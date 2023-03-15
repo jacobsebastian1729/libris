@@ -1,12 +1,14 @@
 import React from 'react';
-
-import './LogIn.css';
+import { Link } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+// MUI
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import TextField from '@mui/material/TextField';
 import { Button, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+
 
 export default function LogIn() {
   return (
@@ -42,7 +44,17 @@ export default function LogIn() {
               variant='standard'
             />
           </div>
-          <Button>LOG IN</Button>
+          <Button
+            style={{
+              maxWidth: 300,
+              maxHeight: 50,
+              minWidth: 250,
+              minHeight: 50,
+            }}
+          >
+            LOG IN
+          </Button>
+          
           <div
             style={{
               marginTop: '2rem',
