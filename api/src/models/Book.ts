@@ -27,6 +27,9 @@ const BookSchema = new mongoose.Schema({
   rating: {
     type: Number,
   },
+  category: {
+    type: String,
+  },
   /*  gener:{
     {type:GenreSchema},
     ref:"genre"
