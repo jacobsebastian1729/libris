@@ -12,6 +12,7 @@ export function registerUser(user: UserType) {
       .post(url, user)
       .then((res) => {
         if (res.status === 200) {
+          console.log(res, 'from register thunk')
           dispatch(userActions.setMessage('Register Success. Please log in.'));
         } else {
           dispatch(userActions.setMessage('Register failed.'));
