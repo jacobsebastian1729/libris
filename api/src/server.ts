@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import mongoose from "mongoose";
+import dotenv from "dotenv";
 
-import app from './app';
+import app from "./app";
 
 dotenv.config();
 const port = 8000;
-mongoose.set('strictQuery', false)
+mongoose.set("strictQuery", false);
 
 mongoose
   .connect(process.env.MONGODB_URL as string)
