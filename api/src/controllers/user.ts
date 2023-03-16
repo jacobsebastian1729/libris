@@ -103,6 +103,10 @@ export const logInWithPassword = async (req: Request, res: Response) => {
   }
 };
 
+export const updateUserByIdController = async () => {
+  
+}
+
 // export const googleAuthenticate = async (req: Request, res: Response) => {
 //   try {
 //     const userData = req.user as UserDocument;
