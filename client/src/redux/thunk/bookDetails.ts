@@ -1,5 +1,5 @@
 import { AppDispatch } from "../store";
-import { bookActions } from "../slices/book ";
+import { bookActions } from "../slices/book";
 import { PORT } from "../../port/Port";
 
 export function fetchBookDetail(bookId: string | undefined) {

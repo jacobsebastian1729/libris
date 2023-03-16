@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { bookReducer } from "./slices/book ";
+import { bookReducer } from "./slices/book";
 import userReducer from './slices/user'
 import bookShelfListReducer from "./slices/bookShelf";
 

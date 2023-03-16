@@ -28,7 +28,7 @@ const bookSlice = createSlice({
       state.Book = action.payload;
       state.isLoading = false;
     },
-    getbookDataPending: (state, action) => {
+    getBookDataPending: (state, action) => {
       state.isLoading = action.payload;
     },
     getBookDetail: (state, action) => {
