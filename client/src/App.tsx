@@ -17,6 +17,8 @@ import LogIn from './components/User/LogIn';
 import Register from './components/User/Register';
 import Friends from './components/Friends/Friends';
 import DashBoard from './components/DashBoard/DashBoard';
+import UserBoard from './components/DashBoard/UserBoard';
+import BooksBoard from './components/DashBoard/BooksBoard';
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
             element={<OneBookShelf />}
           />
           <Route path='/dashboard' element={<DashBoard />} />
+          <Route path='/dashboard/users' element={<UserBoard />} />
+          <Route path='/dashboard/books' element={<BooksBoard />} />
         </Routes>
         <Footer />
       </BrowserRouter>
