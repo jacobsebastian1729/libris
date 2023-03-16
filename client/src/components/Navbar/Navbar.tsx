@@ -81,6 +81,7 @@ export default function Navbar() {
       setUserId(userLogin._id);
     }
   }, []);
+  console.log(userId)
 
   return (
     <div className={classes.root}>

@@ -42,6 +42,8 @@ function App() {
             element={<OneBookShelf />}
           />
           <Route path='/dashboard' element={<DashBoard />} />
+          <Route path='/dashboard/users' element={<UserBoard />} />
+          <Route path='/dashboard/books' element={<BooksBoard />} />
         </Routes>
         <Footer />
       </BrowserRouter>
