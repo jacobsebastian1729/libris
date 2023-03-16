@@ -103,8 +103,27 @@ export const logInWithPassword = async (req: Request, res: Response) => {
   }
 };
 
-export const updateUserByIdController = async () => {
-  
+export const updateUserByIdController = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId
+    const update = req.body
+    const user = await UserServices.findUserById(userId)
+    console.log(user)
+    console.log('update from controller',update)
+
+    if(!user) {
+      return res.status(404).json({message: 'User not found'})
+    }
+
+    const updateUser = {...user.toObject(), ...update}
+    console.log('I wnat this',updateUser)
+    
+    const saveUpdateUser = await UserServices.updateUserById(userId, updateUser)
+    res.status(200).json({updateUser, message: 'Your information is updated successfully!'})
+  } catch(err) {
+    res.status(500).json({message: 'Server error'})
+  }
+
 }
 
 // export const googleAuthenticate = async (req: Request, res: Response) => {

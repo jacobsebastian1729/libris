@@ -1,41 +1,48 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
 
 import { Avatar, Button, Typography } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import Dialog, { DialogProps } from '@mui/material/Dialog';
+import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormControl from '@mui/material/FormControl';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import Checkbox from '@mui/material/Checkbox';
 
-import { RootState } from '../../redux/store';
 import './UserInformation.css';
+import { AppDispatch, RootState } from '../../redux/store';
 import { UserDataType } from '../../types/type';
+import { useNavigate } from 'react-router-dom';
+import { userActions } from '../../redux/slices/user';
 
 const EditSchema = Yup.object().shape({
-  fullName: Yup.string(),
-  email: Yup.string().email('Invalid email'),
-  about: Yup.string(),
-  image: Yup.string(),
+  fullName: Yup.string().nullable().notRequired(),
+  email: Yup.string()
+    .email('Invalid email')
+    .nullable()
+    .notRequired()
+    .nullable(),
+  about_me: Yup.string().nullable().notRequired(),
+  profile_img: Yup.string().nullable().notRequired(),
 });
 
 export default function UserInformation() {
   const [open, setOpen] = React.useState(false);
   const user = useSelector((state: RootState) => state.user.loginUser);
+  const userId = user?._id as string
+  const token = localStorage.getItem('userToken') as string;
+  const navigate = useNavigate()
+
+  const dispatch = useDispatch<AppDispatch>()
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -45,7 +52,45 @@ export default function UserInformation() {
     setOpen(false);
   };
 
-  const editHandler = (newInfo: Partial<UserDataType>) => {};
+  const editHandler = (
+    newInfo: Partial<UserDataType>,
+    userId: string | undefined,
+    token: string
+  ) => {
+    const { fullName, email, about_me, profile_img } = newInfo;
+
+    const dataToUpdate: Partial<UserDataType> = {};
+
+    if (fullName !== '') {
+      dataToUpdate.fullName = fullName;
+    }
+    if (email !== '') {
+      dataToUpdate.email = email;
+    }
+    if (about_me !== '') {
+      dataToUpdate.about_me = about_me;
+    }
+    if (profile_img !== '' && profile_img) {
+      dataToUpdate.profile_img = profile_img;
+    }
+
+    axios
+      .put(`http://localhost:8000/user/${userId}`, dataToUpdate, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res) => {
+        if (res.status === 404) {
+          console.log('fail');
+        }
+        if (res.status === 200) {
+          console.log('success');
+          dispatch(userActions.getLoginUser(res.data.updateUser))
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className='user-information'>
@@ -75,7 +120,7 @@ export default function UserInformation() {
                   border: '3px solid white',
                 }}
               >
-                {user?.fullName.charAt(0).toUpperCase()}
+                {user?.fullName?.charAt(0).toUpperCase()}
               </Avatar>
             )}
 
@@ -92,14 +137,14 @@ export default function UserInformation() {
                   You can edit your information here.
                   <Formik
                     initialValues={{
-                      fullName: '',
-                      email: '',
-                      about: '',
-                      image: '',
+                      fullName: user?.fullName,
+                      email: user?.email,
+                      about_me: '',
+                      profile_img: '',
                     }}
                     validationSchema={EditSchema}
                     onSubmit={(values) => {
-                      editHandler(values);
+                      editHandler(values, userId, token);
                     }}
                   >
                     {({ errors, touched, handleChange }) => (
@@ -107,48 +152,55 @@ export default function UserInformation() {
                         <Grid container spacing={3}>
                           <Grid item xs={12} sm={6}>
                             <TextField
-                              required
                               id='fullName'
-                              name='fulllName'
+                              name='fullName'
                               label='Full name'
                               fullWidth
                               autoComplete='given-name'
                               variant='standard'
+                              onChange={handleChange}
                             />
                           </Grid>
                           <Grid item xs={12} sm={6}>
                             <TextField
-                              required
                               id='email'
                               name='email'
                               label='E-mail'
                               fullWidth
                               variant='standard'
+                              onChange={handleChange}
                             />
                           </Grid>
                           <Grid item xs={12}>
                             <TextField
-                              required
                               id='about'
-                              name='about'
+                              name='about_me'
                               label='About Me'
                               fullWidth
                               autoComplete='about me'
                               variant='standard'
+                              onChange={handleChange}
                             />
 
                             <Grid item xs={12} sm={6}>
                               <TextField
-                                required
                                 id='image'
-                                name='image'
+                                name='profile_img'
                                 label='Profile Image URL'
                                 fullWidth
                                 variant='standard'
+                                onChange={handleChange}
                               />
                             </Grid>
                           </Grid>
                         </Grid>
+                        <DialogActions>
+                          <Button color='secondary' onClick={handleClose}>
+                            Change Password
+                          </Button>
+                          <Button onClick={handleClose}>Close</Button>
+                          <Button type='submit'>Save</Button>
+                        </DialogActions>
                       </Form>
                     )}
                   </Formik>
@@ -168,19 +220,6 @@ export default function UserInformation() {
                   </FormControl>
                 </Box>
               </DialogContent>
-              <DialogActions>
-                <Button color='secondary' onClick={handleClose}>
-                  Change Password
-                </Button>
-                <Button onClick={handleClose}>Cancle</Button>
-                <Button
-                  onClick={() => {
-                    handleClose();
-                  }}
-                >
-                  Save
-                </Button>
-              </DialogActions>
             </Dialog>
           </div>
 
@@ -197,15 +236,15 @@ export default function UserInformation() {
             }}
           >
             <Paper elevation={8} sx={{ paddingTop: '2rem' }}>
-              <Typography variant='h3'>{user?.bookShelves.length}</Typography>
+              <Typography variant='h3'>{user?.bookShelves?.length}</Typography>
               <Typography variant='h6'>Books</Typography>
             </Paper>
             <Paper elevation={8} sx={{ paddingTop: '2rem' }}>
-              <Typography variant='h3'>{user?.followers.length}</Typography>
+              <Typography variant='h3'>{user?.followers?.length}</Typography>
               <Typography variant='h6'>Followers</Typography>
             </Paper>
             <Paper elevation={8} sx={{ paddingTop: '2rem' }}>
-              <Typography variant='h3'>{user?.following.length}</Typography>
+              <Typography variant='h3'>{user?.following?.length}</Typography>
               <Typography variant='h6'>Following</Typography>
             </Paper>
           </Box>
@@ -223,7 +262,7 @@ export default function UserInformation() {
                 Write about yourself and your interests of books. You will be
                 noted!
               </Typography>
-              <Button>Write About Me</Button>
+             
             </div>
           )}
         </div>

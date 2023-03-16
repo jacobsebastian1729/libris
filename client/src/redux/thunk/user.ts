@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { AppDispatch } from '../store';
 import { userActions } from '../slices/user';
-import { LoginUserType, UserType } from '../../types/type';
+import { LoginUserType, UserDataType, UserType } from '../../types/type';
 import { PORT } from '../../port/Port';
 
 const url = `http://localhost:${PORT}/user`;
@@ -51,5 +51,12 @@ export function getAllUserData() {
     const response = await axios.get(`${url}`)
     const userData = await response.data
     dispatch(userActions.getAllUsers(userData))
+  }
+}
+
+export function getUserByLogInUserId(id:string) {
+  return async (dispatch: AppDispatch) => {
+    const response = await axios.get(`${url}/${id}`)
+    dispatch(userActions.getLoginUser(response.data))
   }
 }
