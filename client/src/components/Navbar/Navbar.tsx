@@ -57,7 +57,7 @@ export default function Navbar() {
   const userLogin = useSelector((state: RootState) => state.user.loginUser);
   const [userId, setUserId] = useState<string | null>(null);
   const [initial, setInitial] = useState<string | null>(null)
-  console.log('userLogin', userLogin);
+  console.log('userLogin', userLogin, 'userId', userId);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -81,13 +81,12 @@ export default function Navbar() {
     if (userLogin) {
       
       const name = userLogin.fullName
-      const userInitial = name.charAt(0).toUpperCase()
+      const userInitial = name?.charAt(0).toUpperCase()
       
       setUserId(userLogin._id);
       setInitial(userInitial)
     }
   }, [userLogin]);
-  console.log(userId)
 
   return (
     <div className={classes.root}>
@@ -123,7 +122,7 @@ export default function Navbar() {
           </Link>
           <div style={{ flexGrow: 1 }}></div>
           {}
-          {userLogin ? (
+          {userLogin && userId !== '' ? (
             <div>
               <Box
                 sx={{
@@ -170,7 +169,7 @@ export default function Navbar() {
                 transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                 anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
               >
-                {userLogin.isAdmin === true ? (
+                {userLogin?.isAdmin === true ? (
                   <Link
                     to='/dashboard'
                     style={{
