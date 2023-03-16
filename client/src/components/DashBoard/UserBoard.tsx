@@ -79,11 +79,11 @@ export default function UserBoard() {
                 <TableCell align='right'>{row.email}</TableCell>
                 <TableCell align='right'>
                   {row.status === 'inactive' ? (
-                    <Button variant="outlined" color="secondary" sx={{ borderRadius: 12.5 }} >{row.status}</Button>
+                    <Button variant="outlined" color="error" style={{ borderRadius: 50 }} >{row.status}</Button>
                   ) : row.status === 'active' ? (
-                    <Button variant="outlined" color="success" sx={{ borderRadius: 12.5 }}>{row.status}</Button>
+                    <Button variant="outlined" color="success" style={{ borderRadius: 50, color: 'green', fontWeight:'800' }}>{row.status}</Button>
                   ) : (
-                    <Button variant="outlined" color="error" sx={{ borderRadius: 12.5 }}>{row.status}</Button>
+                    <Button variant="contained" color="secondary" style={{ borderRadius: 50 }}>{row.status}</Button>
                   )}
                 </TableCell>
                 <TableCell align='right'>

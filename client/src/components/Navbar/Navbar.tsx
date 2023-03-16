@@ -56,6 +56,7 @@ export default function Navbar() {
   const classes = useStyles();
   const userLogin = useSelector((state: RootState) => state.user.loginUser);
   const [userId, setUserId] = useState<string | null>(null);
+  const [initial, setInitial] = useState<string | null>(null)
   console.log('userLogin', userLogin);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -78,9 +79,14 @@ export default function Navbar() {
       return;
     }
     if (userLogin) {
+      
+      const name = userLogin.fullName
+      const userInitial = name.charAt(0).toUpperCase()
+      
       setUserId(userLogin._id);
+      setInitial(userInitial)
     }
-  }, []);
+  }, [userLogin]);
   console.log(userId)
 
   return (
@@ -142,7 +148,7 @@ export default function Navbar() {
                         cursor: 'pointer',
                       }}
                     >
-                      OP
+                      {initial}
                     </Avatar>
                   </IconButton>
                 </Tooltip>
