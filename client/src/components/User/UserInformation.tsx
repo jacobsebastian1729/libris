@@ -1,5 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 import { Avatar, Button, Typography } from '@mui/material';
 import { deepPurple } from '@mui/material/colors';
@@ -20,6 +24,14 @@ import Checkbox from '@mui/material/Checkbox';
 
 import { RootState } from '../../redux/store';
 import './UserInformation.css';
+import { UserDataType } from '../../types/type';
+
+const EditSchema = Yup.object().shape({
+  fullName: Yup.string(),
+  email: Yup.string().email('Invalid email'),
+  about: Yup.string(),
+  image: Yup.string(),
+});
 
 export default function UserInformation() {
   const [open, setOpen] = React.useState(false);
@@ -32,6 +44,8 @@ export default function UserInformation() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const editHandler = (newInfo: Partial<UserDataType>) => {};
 
   return (
     <div className='user-information'>
@@ -76,52 +90,68 @@ export default function UserInformation() {
               <DialogContent>
                 <DialogContentText>
                   You can edit your information here.
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        id='fullName'
-                        name='fulllName'
-                        label='Full name'
-                        fullWidth
-                        autoComplete='given-name'
-                        variant='standard'
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        id='email'
-                        name='email'
-                        label='E-mail'
-                        fullWidth
-                        variant='standard'
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        required
-                        id='about'
-                        name='about'
-                        label='About Me'
-                        fullWidth
-                        autoComplete='about me'
-                        variant='standard'
-                      />
-                      
-                      <Grid item xs={12} sm={6}>
-                        <TextField
-                          required
-                          id='image'
-                          name='image'
-                          label='Profile Image URL'
-                          fullWidth
-                          variant='standard'
-                        />
-                      </Grid>
-                      
-                    </Grid>
-                  </Grid>
+                  <Formik
+                    initialValues={{
+                      fullName: '',
+                      email: '',
+                      about: '',
+                      image: '',
+                    }}
+                    validationSchema={EditSchema}
+                    onSubmit={(values) => {
+                      editHandler(values);
+                    }}
+                  >
+                    {({ errors, touched, handleChange }) => (
+                      <Form>
+                        <Grid container spacing={3}>
+                          <Grid item xs={12} sm={6}>
+                            <TextField
+                              required
+                              id='fullName'
+                              name='fulllName'
+                              label='Full name'
+                              fullWidth
+                              autoComplete='given-name'
+                              variant='standard'
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6}>
+                            <TextField
+                              required
+                              id='email'
+                              name='email'
+                              label='E-mail'
+                              fullWidth
+                              variant='standard'
+                            />
+                          </Grid>
+                          <Grid item xs={12}>
+                            <TextField
+                              required
+                              id='about'
+                              name='about'
+                              label='About Me'
+                              fullWidth
+                              autoComplete='about me'
+                              variant='standard'
+                            />
+
+                            <Grid item xs={12} sm={6}>
+                              <TextField
+                                required
+                                id='image'
+                                name='image'
+                                label='Profile Image URL'
+                                fullWidth
+                                variant='standard'
+                              />
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Form>
+                    )}
+                  </Formik>
                 </DialogContentText>
                 <Box
                   noValidate
@@ -139,9 +169,17 @@ export default function UserInformation() {
                 </Box>
               </DialogContent>
               <DialogActions>
-              <Button color='secondary' onClick={handleClose}>Change Password</Button>
+                <Button color='secondary' onClick={handleClose}>
+                  Change Password
+                </Button>
                 <Button onClick={handleClose}>Cancle</Button>
-                <Button onClick={handleClose}>Save</Button>
+                <Button
+                  onClick={() => {
+                    handleClose();
+                  }}
+                >
+                  Save
+                </Button>
               </DialogActions>
             </Dialog>
           </div>
