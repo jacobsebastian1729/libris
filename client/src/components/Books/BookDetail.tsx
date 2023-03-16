@@ -13,6 +13,9 @@ import Paper from "@mui/material/Paper";
 import { Grid, CardMedia, CardContent, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
+import Comments from "../Comments/Comments";
+
+
 
 //console.log(productDetail, "got details");
 const useStyles = makeStyles({
@@ -112,6 +115,8 @@ export default function BookDetail() {
           </Grid>
         </Paper>
       </div>
+      
+      <Comments key={bookDetail._id} prop = {bookDetail}/>
     </div>
   );
 }
