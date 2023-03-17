@@ -6,6 +6,7 @@ import {
   getUserByUserIdController,
   getUserListController,
   logInWithPassword,
+  updatePasswordController,
   updateUserByIdController,
 } from '../controllers/user';
 
@@ -19,6 +20,11 @@ router.put(
   '/:userId',
   passport.authenticate('jwt', { session: false }),
   updateUserByIdController
+);
+router.put(
+  '/password/:userId',
+  passport.authenticate('jwt', { session: false }),
+  updatePasswordController
 );
 // router.post(
 //   '/google-login',

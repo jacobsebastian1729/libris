@@ -122,7 +122,7 @@ export default function Navbar() {
           </Link>
           <div style={{ flexGrow: 1 }}></div>
           {}
-          {userLogin && userId !== '' ? (
+          {userLogin && userId !== '' && userId ? (
             <div>
               <Box
                 sx={{

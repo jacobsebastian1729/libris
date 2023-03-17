@@ -57,6 +57,7 @@ export function getAllUserData() {
 export function getUserByLogInUserId(id:string) {
   return async (dispatch: AppDispatch) => {
     const response = await axios.get(`${url}/${id}`)
-    dispatch(userActions.getLoginUser(response.data))
+    console.log(response)
+    // dispatch(userActions.getLoginUser(response.data))
   }
 }

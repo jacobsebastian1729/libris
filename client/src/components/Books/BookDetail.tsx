@@ -41,6 +41,8 @@ export default function BookDetail() {
   const bookDetail = useSelector(
     (state: RootState) => state.bookItem.bookDetails
   );
+  const user = useSelector((state: RootState)=> state.user.loginUser)
+  const userId = user?._id as string
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(fetchBookDetail(bookId));
@@ -52,12 +54,12 @@ export default function BookDetail() {
         <Paper
           elevation={6}
           sx={{
-            maxWidth: 700,
-            height: 700,
+            width: 700,
+            height: 600,
             backgroundColor: "aliceblue",
-            mt: 10,
-            ml: 50,
-            mb: 50,
+            mt: 5,
+            ml: '22%',
+            mb: '2rem',
           }}
         >
           <Grid container className={classes.root}>
@@ -67,7 +69,7 @@ export default function BookDetail() {
                   className={classes.cover}
                   image={bookDetail.thumbnail}
                 />
-                <Button>comments</Button>
+               
               </Card>
             </Grid>
             <Grid item xs={8} md={0}>
@@ -116,7 +118,7 @@ export default function BookDetail() {
         </Paper>
       </div>
       
-      <Comments key={bookDetail._id} prop = {bookDetail}/>
+      <Comments key={bookDetail._id} prop = {bookDetail} userId={userId}/>
     </div>
   );
 }
