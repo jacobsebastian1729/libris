@@ -16,7 +16,27 @@ export default function BooksList() {
   useEffect(() => {
     disPatch(fetchbookData());
   }, [disPatch]);
-  console.log(bookList);
+  console.log(bookList); //filter
+  const getUserData = useSelector(
+    (state: RootState) => state.searchBook.userInput
+  );
+  const [filteredBooks, setFilteredBooks] = useState<BookType[]>([]);
+
+  useEffect(() => {
+    const filteredBooks = bookList.filter(
+      (bookItem) =>
+        bookItem.title.toLowerCase().includes(getUserData.toLowerCase()) ||
+        bookItem.author.toLowerCase().includes(getUserData.toLowerCase())
+    );
+
+    setFilteredBooks(filteredBooks);
+  }, [getUserData, bookList]);
+
+  const result = getUserData === "" ? bookList : filteredBooks;
+  if (!result.length) {
+    return <div className="search-message">No matching books found.</div>;
+  }
+
   if (isLoad)
     return (
       <div>
@@ -26,7 +46,7 @@ export default function BooksList() {
   return (
     <div className="container">
       <div className="main">
-        {bookList.map((item, index) => (
+        {result.map((item, index) => (
           <BooksListItem key={index} bookItem={item} />
         ))}
       </div>
