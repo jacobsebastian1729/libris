@@ -6,10 +6,5 @@ const createBookShelf = async (
     return bookShelf.save()
 };
 
-const getBookShelfByUserId = async (
-    userIdFromRequest: string
-): Promise<BookShelfDocument[]> => {
-    return BookShelf.find({ userId: userIdFromRequest }).populate("userId");
-};
 
-export default { createBookShelf, getBookShelfByUserId };
+export default { createBookShelf };
