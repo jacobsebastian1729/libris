@@ -4,3 +4,11 @@
   margin-top: 10%;
   margin-left: 10%;
 }
+.search-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 20px;
+  color: #888;
+}
