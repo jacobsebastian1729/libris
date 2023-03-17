@@ -92,16 +92,12 @@ export default function Navbar() {
     <div className={classes.root}>
       <AppBar position='static' className={classes.appBar}>
         <Toolbar>
-          <Link to='/' style={{ textDecoration: 'none' }}>
+          <Link to='/' style={{ textDecoration: 'none', marginRight: '2rem' }}>
             <Typography variant='h3' className={classes.title}>
               LIBRIS
             </Typography>
           </Link>
-          <Link to='/search' style={{ textDecoration: 'none' }}>
-            <Button color='inherit' className={classes.navButton}>
-              Search
-            </Button>
-          </Link>
+         
           <Link to='/books' style={{ textDecoration: 'none' }}>
             <Button color='inherit' className={classes.navButton}>
               Books
