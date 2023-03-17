@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import User, { UserDocument } from '../models/User';
 import UserServices from '../services/user';
 import { generateToken } from '../util/generateToken';
+import Book from '../models/Book';
 
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET as string;
@@ -171,3 +172,32 @@ export const updatePasswordController = async (req: Request, res: Response) => {
 //     res.status(500).json({ message: 'Google login failed' });
 //   }
 // };
+
+export const addBookToUserController = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const bookId = req.params.bookId;
+
+    const user = await User.findById(userId);
+    const book = await Book.findById(bookId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (!book) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
+
+    if(user.bookShelves?.includes(book)) {
+      return res.status(400).json({message: 'Book already exists'})
+    }
+    user.bookShelves?.push(book);
+    await user.save();
+    res
+      .status(200)
+      .json({ user, message: ' Book is added to your bookshelf.' });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
