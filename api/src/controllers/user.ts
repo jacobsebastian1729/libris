@@ -189,7 +189,9 @@ export const addBookToUserController = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Book not found' });
     }
 
-    if(user.bookShelves?.includes(book)) {
+    const exist = user.bookShelves?.findIndex((book)=> book._id.toString() === bookId.toString())
+
+    if(exist !== -1) {
       return res.status(400).json({message: 'Book already exists'})
     }
     user.bookShelves?.push(book);

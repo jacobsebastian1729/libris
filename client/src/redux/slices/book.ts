@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import { BookType } from "../../types/type";
 
 type InitialState = {
-  BookType: any;
   Book: BookType[];
   isLoading: boolean;
   bookDetails: BookType;

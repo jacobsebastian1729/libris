@@ -16,7 +16,7 @@ const myBooksSlice = createSlice({
     reducers: {
         addMyBooks: (state, action: PayloadAction<BookType>) => {
             state.myBooks.push(action.payload);
-            localStorage.setItem("myBooks", JSON.stringify(state.myBooks));
+            // localStorage.setItem("myBooks", JSON.stringify(state.myBooks));
         },
         removeMyBooks: (state, action) => {
             let currentLocalStorage: BookType[] = JSON.parse(localStorage.getItem("myBooks") || "null");
@@ -27,7 +27,7 @@ const myBooksSlice = createSlice({
             );
             if (result !== -1) {
                 state.myBooks.splice(result, 1);
-                localStorage.setItem("myBooks", JSON.stringify(state.myBooks));
+                // localStorage.setItem("myBooks", JSON.stringify(state.myBooks));
             }
         },
     },
