@@ -1,6 +1,8 @@
 import { AppDispatch } from "../store";
 import { PORT } from "../../port/Port";
 import { bookActions } from "../slices/book";
+import axios from "axios";
+import { BookType } from "../../types/type";
 
 const url = `http://localhost:${PORT}/books`;
 export function fetchbookData() {
@@ -10,4 +12,12 @@ export function fetchbookData() {
     const bookData = await response.json();
     dispatch(bookActions.getBookData(bookData));
   };
+}
+
+export function createBookThunk(bookData: BookType) {
+  return async (dispatch: AppDispatch) => {
+    console.log(bookData)
+    const response = axios.post(`${url}/create`, bookData)
+    console.log(response)
+  }
 }
