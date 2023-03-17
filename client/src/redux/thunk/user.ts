@@ -57,7 +57,13 @@ export function getAllUserData() {
 export function getUserByLogInUserId(id:string) {
   return async (dispatch: AppDispatch) => {
     const response = await axios.get(`${url}/${id}`)
-    console.log(response)
     // dispatch(userActions.getLoginUser(response.data))
+  }
+}
+
+export function addBookToUserBookShelf(userId:string, bookId:string) {
+  return async(dispatch:AppDispatch) => {
+    const response = await axios.post(`${url}/${userId}/${bookId}`)
+    console.log(response)
   }
 }

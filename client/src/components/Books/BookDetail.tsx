@@ -15,11 +15,9 @@ import { makeStyles } from "@mui/styles";
 import { useState } from "react";
 import Comments from "../Comments/Comments";
 import { BookType } from "../../types/type";
-import { myBooksActions } from "../../redux/slice/myBooks";
+import { addBookToUserBookShelf } from "../../redux/thunk/user";
+// import { myBooksActions } from "../../redux/slice/myBooks";
 
-
-
-//console.log(productDetail, "got details");
 const useStyles = makeStyles({
   root: {
     maxWidth: 600,
@@ -41,26 +39,28 @@ export default function BookDetail() {
 
   const user = useSelector((state: RootState) => state.user.loginUser);
   const myBooks = user?.bookShelves;
+  const userId = user?._id as string
 
-  const myBooksBtnHandler = (myBooks: BookType) => {
-    const hasDuplicate = myBooks.some(
-      (bookItem) =>
-        bookItem.title.toLocaleLowerCase() === myBooks.title.toLocaleLowerCase()
-      );
-      if (hasDuplicate) {
-        alert("This book is already in your list");
-      } else {
-        dispatch(myBooksActions.add)
-      }
+ const { bookId } = useParams() 
+ console.log(bookId)
+  const myBooksBtnHandler = (userId:string, bookId:string) => {
+    if(bookId) {
+      dispatch(addBookToUserBookShelf(userId, bookId))
+    } else {
+      console.log('bookId not exist')
     }
+    
+  }
 
   const classes = useStyles();
-  const { bookId } = useParams();
+ 
   const bookDetail = useSelector(
     (state: RootState) => state.bookItem.bookDetails
   );
-  const user = useSelector((state: RootState)=> state.user.loginUser)
-  const userId = user?._id as string
+
+  console.log('bookId', bookId)
+  
+  
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(fetchBookDetail(bookId));
@@ -130,7 +130,11 @@ export default function BookDetail() {
                 <Button onClick={toggleDescription} color="info">
                   {showFullDescription ? "Read less" : "Read more"}
                 </Button>
-                <Button onClick={myBooksBtnHandler(bookItem)}>
+                <Button onClick={()=>{
+                  if(bookId){
+                    myBooksBtnHandler(userId, bookId)
+                  }
+                  }}>
                     Add to My Books
                 </Button>
               </CardContent>

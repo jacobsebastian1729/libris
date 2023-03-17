@@ -78,15 +78,9 @@ export default function BookForm({ open, handleClose }: PropType) {
       </AppBar>
       <List>
         <ListItem button>
-          <ListItemText primary='Phone ringtone' secondary='Titania' />
+          <ListItemText primary='This is Admin only page' secondary='Hi. Freddie Mercury' />
         </ListItem>
         <Divider />
-        <ListItem button>
-          <ListItemText
-            primary='Default notification ringtone'
-            secondary='Tethys'
-          />
-        </ListItem>
       
         <form
           onSubmit={handleSubmit}
