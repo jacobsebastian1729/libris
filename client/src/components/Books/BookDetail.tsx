@@ -14,6 +14,8 @@ import { Grid, CardMedia, CardContent, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useState } from "react";
 import Comments from "../Comments/Comments";
+import { BookType } from "../../types/type";
+import { myBooksActions } from "../../redux/slice/myBooks";
 
 
 
@@ -36,6 +38,22 @@ export default function BookDetail() {
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
+
+  const myBooks = useSelector((state: RootState) => state.bookItem.BookType);
+
+
+  const myBooksBtnHandler = (myBooks: BookType) => {
+    const hasDuplicate = myBooks.some(
+      (bookItem) =>
+        bookItem.title.toLocaleLowerCase() === myBooks.title.toLocaleLowerCase()
+      );
+      if (hasDuplicate) {
+        alert("This book is already in your list");
+      } else {
+        dispatch(myBooksActions.add)
+      }
+    }
+
   const classes = useStyles();
   const { bookId } = useParams();
   const bookDetail = useSelector(
@@ -69,7 +87,7 @@ export default function BookDetail() {
                   className={classes.cover}
                   image={bookDetail.thumbnail}
                 />
-               
+
               </Card>
             </Grid>
             <Grid item xs={8} md={0}>
@@ -112,12 +130,15 @@ export default function BookDetail() {
                 <Button onClick={toggleDescription} color="info">
                   {showFullDescription ? "Read less" : "Read more"}
                 </Button>
+                <Button onClick={myBooksBtnHandler(bookItem)}>
+                    Add to My Books
+                </Button>
               </CardContent>
             </Grid>
           </Grid>
         </Paper>
       </div>
-      
+
       <Comments key={bookDetail._id} prop = {bookDetail} userId={userId}/>
     </div>
   );
