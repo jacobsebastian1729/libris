@@ -3,6 +3,7 @@ import passport from "passport";
 
 import {
     addBookToBookShelfController,
+    getBookShelfByUserId,
     getBookShelfListController
 } from "../controllers/bookShelf"
 
@@ -18,5 +19,7 @@ router.post(
 router.get(
     "/", getBookShelfListController
 );
+
+router.get('/:userId', getBookShelfByUserId)
 
 export default router;
