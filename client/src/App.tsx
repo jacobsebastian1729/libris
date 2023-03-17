@@ -3,7 +3,6 @@ import React from 'react';
 
 import './App.css';
 import Home from './pages/Home';
-import Search from './pages/Search';
 import Books from './pages/Books';
 import BookDetail from './components/Books/BookDetail';
 import MyAchievement from './components/User/MyAchievement';
@@ -27,7 +26,6 @@ function App() {
         <Navbar />
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path='/search' element={<Search />} />
           <Route path='/books' element={<Books />} />
           <Route path='/books/:bookId' element={<BookDetail />} />
           <Route path='/:userId/books' element={<MyBooks />} />
