@@ -13,7 +13,7 @@ type Prop = {
 };
 export default function BooksListItem({ bookItem }: Prop) {
   const bookList = useSelector((state: RootState) => state.bookItem.Book);
-  console.log(bookList, "boook");
+ 
   return (
     <div className="book-items">
       <Link to={`/books/${bookItem._id}`}>

@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 
 import { Avatar, Button, Typography } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
+import { deepPurple, red } from '@mui/material/colors';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Dialog from '@mui/material/Dialog';
@@ -17,6 +17,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
+import EditIcon from '@mui/icons-material/Edit';
 
 import './UserInformation.css';
 import { AppDispatch, RootState } from '../../redux/store';
@@ -26,23 +27,33 @@ import { userActions } from '../../redux/slices/user';
 
 const EditSchema = Yup.object().shape({
   fullName: Yup.string().nullable().notRequired(),
-  email: Yup.string()
-    .email('Invalid email')
-    .nullable()
-    .notRequired()
-    .nullable(),
+  email: Yup.string().email('Invalid email').nullable().notRequired(),
   about_me: Yup.string().nullable().notRequired(),
   profile_img: Yup.string().nullable().notRequired(),
 });
 
+const validationSchema = Yup.object().shape({
+  password: Yup.string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('Password is required')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/,
+      'Password should contain uppercase letter, lowercase letter and number'
+    ),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password')], 'Password does not match')
+    .required('Password confirmation is required'),
+});
+
 export default function UserInformation() {
   const [open, setOpen] = React.useState(false);
+  const [passwordChangeFormOpen, setPasswordChangeFormOpen] =
+    React.useState<boolean>(false);
   const user = useSelector((state: RootState) => state.user.loginUser);
-  const userId = user?._id as string
+  const userId = user?._id as string;
   const token = localStorage.getItem('userToken') as string;
-  const navigate = useNavigate()
 
-  const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,6 +61,14 @@ export default function UserInformation() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const pwOpen = () => {
+    setPasswordChangeFormOpen(true);
+  };
+
+  const pwClose = () => {
+    setPasswordChangeFormOpen(false);
   };
 
   const editHandler = (
@@ -84,7 +103,30 @@ export default function UserInformation() {
         }
         if (res.status === 200) {
           console.log('success');
-          dispatch(userActions.getLoginUser(res.data.updateUser))
+          dispatch(userActions.getLoginUser(res.data.updateUser));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const changePassword = (
+    value: { password: string; confirmPassword: string },
+    userId: string,
+    token: string
+  ) => {
+    const url = `http://localhost:8000/user/password/${userId}`;
+    console.log(value);
+
+    axios
+      .put(url, value, { headers: { Authorization: `Bearer ${token}` } })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('success');
+        }
+        if (res.status === 401) {
+          console.log('bad');
         }
       })
       .catch((err) => {
@@ -123,8 +165,73 @@ export default function UserInformation() {
                 {user?.fullName?.charAt(0).toUpperCase()}
               </Avatar>
             )}
-
-            <Button onClick={handleClickOpen}>Edit profile</Button>
+            <Button onClick={handleClickOpen}>
+              <EditIcon />
+              Edit profile
+            </Button>
+            <Dialog
+              fullWidth={true}
+              maxWidth='md'
+              open={passwordChangeFormOpen}
+              onClose={handleClose}
+            >
+              {' '}
+              <DialogTitle>Password Change</DialogTitle>
+              <DialogContent>
+                <Formik
+                  initialValues={{ password: '', confirmPassword: '' }}
+                  validationSchema={validationSchema}
+                  onSubmit={(values) => {
+                    changePassword(values, userId, token);
+                  }}
+                >
+                  {({ errors, touched, handleChange }) => (
+                    <Form>
+                      <Grid container spacing={3}>
+                        <Grid item xs={12} sm={5}>
+                          <TextField
+                            required
+                            id='password'
+                            name='password'
+                            label='Password'
+                            fullWidth
+                            variant='standard'
+                            onChange={handleChange}
+                          />
+                          {errors.password ? (
+                          <Typography variant='body2' color={red[600]}>*{errors.password}</Typography>
+                        ) : null}
+                        </Grid>
+                        
+                        <Grid item xs={12} sm={5}>
+                          <TextField
+                            required
+                            id='confirmPassword'
+                            name='confirmPassword'
+                            label='Confirm Password'
+                            fullWidth
+                            variant='standard'
+                            onChange={handleChange}
+                          />
+                           {errors.confirmPassword ? (
+                          <Typography color={red[600]} variant='body2'>
+                            *{errors.confirmPassword}
+                          </Typography>
+                        ) : null}
+                        </Grid>
+                       
+                      </Grid>
+                      <DialogActions>
+                        <Button onClick={pwClose}>Close</Button>
+                        <Button type='submit'>
+                          Save
+                        </Button>
+                      </DialogActions>
+                    </Form>
+                  )}
+                </Formik>
+              </DialogContent>
+            </Dialog>
             <Dialog
               fullWidth={true}
               maxWidth='xl'
@@ -195,11 +302,19 @@ export default function UserInformation() {
                           </Grid>
                         </Grid>
                         <DialogActions>
-                          <Button color='secondary' onClick={handleClose}>
+                          <Button
+                            color='secondary'
+                            onClick={() => {
+                              handleClose();
+                              pwOpen();
+                            }}
+                          >
                             Change Password
                           </Button>
                           <Button onClick={handleClose}>Close</Button>
-                          <Button type='submit'>Save</Button>
+                          <Button type='submit' onClick={handleClose}>
+                            Save
+                          </Button>
                         </DialogActions>
                       </Form>
                     )}
@@ -262,7 +377,6 @@ export default function UserInformation() {
                 Write about yourself and your interests of books. You will be
                 noted!
               </Typography>
-             
             </div>
           )}
         </div>
