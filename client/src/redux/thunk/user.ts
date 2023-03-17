@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie'
 
 import { AppDispatch } from '../store';
 import { userActions } from '../slices/user';
@@ -32,6 +33,7 @@ export function loginUserThunk(user: LoginUserType) {
           console.log(res.data);
           const token = res.data.token;
           localStorage.setItem('userToken', token);
+          Cookies.set('userToken', token, { expires: 7 });
           dispatch(userActions.loginAction(true))
           dispatch(userActions.getLoginUser(res.data.userData))
           dispatch(userActions.setMessage(res.data.message))

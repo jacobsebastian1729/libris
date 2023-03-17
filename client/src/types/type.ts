@@ -32,7 +32,7 @@ export type BookType = {
     rating: number;
     genre: string;
     author: string;
-    _id: string;
+    _id?: string;
   };
 
 export type BookList = BookType & {
