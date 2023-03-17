@@ -2,6 +2,7 @@ import { Router } from 'express';
 import passport from 'passport';
 
 import {
+  addBookToUserController,
   createUserController,
   getUserByUserIdController,
   getUserListController,
@@ -26,6 +27,7 @@ router.put(
   passport.authenticate('jwt', { session: false }),
   updatePasswordController
 );
+router.post('/:userId/:bookId', addBookToUserController)
 // router.post(
 //   '/google-login',
 //   passport.authenticate('google-id-token', { session: false }),
