@@ -22,7 +22,7 @@ import {
 import { Add } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../redux/store';
-import { createBookThunk } from '../../redux/thunk/book';
+import { createBookThunk, fetchbookData } from '../../redux/thunk/book';
 
 type PropType = {
   open: boolean;
@@ -54,7 +54,10 @@ export default function BookForm({ open, handleClose }: PropType) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const response = await dispatch(createBookThunk(book));
+
+    dispatch(fetchbookData())
     handleClose();
+    
   };
 
   return (
