@@ -1,16 +1,21 @@
 import mongoose, { Document } from "mongoose";
+import { BookDocument } from "./Book";
 
 export type BookShelfDocument = Document & {
-    BookDocument: [];
+    BookDocument: BookDocument[];
     userId: string
 };
 
 const BookShelfSchema = new mongoose.Schema({
-    BookDocument: {
-        type: Array
-    },
+    BookDocument: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Book'
+        }
+    ],
     userId: {
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
     }
 })
 
