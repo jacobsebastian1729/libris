@@ -39,8 +39,8 @@ export default function BookDetail() {
     setShowFullDescription(!showFullDescription);
   };
 
-  const myBooks = useSelector((state: RootState) => state.bookItem.BookType);
-
+  const user = useSelector((state: RootState) => state.user.loginUser);
+  const myBooks = user?.bookShelves;
 
   const myBooksBtnHandler = (myBooks: BookType) => {
     const hasDuplicate = myBooks.some(
