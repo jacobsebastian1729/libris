@@ -2,21 +2,21 @@ import { Router } from "express";
 import passport from "passport";
 
 import {
-    createBookShelf,
-    getBookShelfByUserId
+    addBookToBookShelfController,
+    getBookShelfListController
 } from "../controllers/bookShelf"
 
 const router = Router();
 
+// to create bookshelf to each user
 router.post(
     "/:userId",
-    passport.authenticate("jwt", { session: false }),
-    createBookShelf
+    addBookToBookShelfController
 );
+
+// to get all bookshelf list
 router.get(
-    "/:userId",
-    passport.authenticate("jwt", { session: false }),
-    getBookShelfByUserId
+    "/", getBookShelfListController
 );
 
 export default router;
