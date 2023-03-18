@@ -11,8 +11,11 @@ type InitialState = {
 const initialState: InitialState = {
     bookShelfList: [
         {
-            userId: '',
-            bookList: [{
+            userId: {
+                email: '',
+                _id: '',
+            },
+            books: [{
                 _id:'',
                 title: "",
                 thumbnail: "",

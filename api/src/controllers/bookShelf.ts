@@ -55,7 +55,7 @@ export const addBookToBookShelfController = async (
 export const getBookShelfListController = async (req: Request, res: Response) => {
   try {
     const bookShelfList = await BookShelf.find().populate('books').populate('userId');
-    res.status(200).json({ bookShelfList });
+    res.status(200).json( bookShelfList );
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
