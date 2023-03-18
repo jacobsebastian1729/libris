@@ -104,16 +104,17 @@ export const addBookToBookShelfWithBookId = async (
           message: 'Bookshelf created successfully',
         });
       }
-  
+      console.log(bookshelfOfUser.books, 'Check this out!')
       const existingBookIndex = bookshelfOfUser.books.findIndex(
-        (bookId) => bookId.toString() === bookId.toString()
+        (id) => id.toString() === bookId.toString()
       );
   
-      if (existingBookIndex !== -1) {
+      if (bookshelfOfUser && existingBookIndex !== -1) {
         return res
           .status(400)
           .json({ message: 'Book already exists in your bookshelf' });
-      } else {
+      } 
+      if(bookshelfOfUser && existingBookIndex === -1) {
         const newBook = await Book.findById(bookId)
         console.log(newBook, 'what shape are you?')
         bookshelfOfUser.books.push(newBook?._id);
