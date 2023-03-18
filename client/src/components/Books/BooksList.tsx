@@ -8,6 +8,7 @@ import { fetchbookData } from "../../redux/thunk/book";
 import BooksListItem from "./BooksListItem";
 import Loader from "../loader/Loader";
 import "./BookList.css";
+import { Typography } from "@mui/material";
 export default function BooksList() {
   const isLoad = useSelector((state: RootState) => state.bookItem.isLoading);
   const bookList = useSelector((state: RootState) => state.bookItem.Book);
@@ -45,6 +46,9 @@ export default function BooksList() {
     );
   return (
     <div className="container">
+      <div style={{paddingTop: '3rem', paddingBottom: '3rem', paddingLeft: '7rem'}}>
+      <Typography variant='h4'>You can find {result.length} books in total.</Typography>
+      </div>
       <div className="main">
         {result.map((item, index) => (
           <BooksListItem key={index} bookItem={item} />
