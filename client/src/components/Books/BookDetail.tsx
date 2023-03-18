@@ -73,7 +73,7 @@ export default function BookDetail() {
           elevation={6}
           sx={{
             width: 700,
-            height: 600,
+            height: 'fit-content',
             backgroundColor: "aliceblue",
             mt: 5,
             ml: '22%',
