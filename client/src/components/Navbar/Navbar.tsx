@@ -103,6 +103,7 @@ export default function Navbar() {
               Books
             </Button>
           </Link>
+          {userId && 
           <Link
             to={userId ? `/${userId}/books` : `/mybooks`}
             style={{ textDecoration: 'none' }}
@@ -110,7 +111,7 @@ export default function Navbar() {
             <Button color='inherit' className={classes.navButton}>
               MyBooks
             </Button>
-          </Link>
+          </Link>}
           <Link to='/bookshelves/all' style={{ textDecoration: 'none' }}>
             <Button color='inherit' className={classes.navButton}>
               BookShelves

@@ -24,7 +24,10 @@ export default function BookShelvesList() {
 
   console.log(bookShelfList, "bookShelfList")
   return (
-    <div>
+    <div style={{paddingTop:'2rem'}}>
+      <div style={{marginBottom: '2rem', paddingLeft: '5rem'}}>
+      <Typography variant='h4'>Check other user's bookshelves and follow you like.</Typography>
+      </div>
       <Box className = "shelf_header">
       <Typography  className = "shelf_header_content" variant="h4" sx={{ fontWeight: 700 }} mt={2} pr = {10}>
               BookShelves
