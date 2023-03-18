@@ -1,8 +1,8 @@
 .main {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  margin-top: 10%;
-  margin-left: 10%;
+  padding-top: 10%;
+  padding-left: 10%;
 }
 .search-message {
   display: flex;
