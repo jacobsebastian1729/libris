@@ -6,19 +6,19 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { BookType } from "../../types/type";
 
 type Prop = {
-    myBook: BookType;
+    book: string;
 }
 
 
-function MyBooksItem({ myBook }: Prop) {
+function MyBooksItem({ book }: Prop) {
     // const dispatch = useDispatch<AppDispatch>();
 
   return (
     <div>
-        MyBooksItem
-        <p>{myBook.thumbnail}</p>
+        <p>book</p>
+        {/* <p>{myBook.thumbnail}</p>
         <p>{myBook.title}</p>
-        <p>{myBook.author}</p>
+        <p>{myBook.author}</p> */}
     </div>
   )
 }
