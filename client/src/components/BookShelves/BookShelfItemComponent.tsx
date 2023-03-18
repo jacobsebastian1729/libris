@@ -13,7 +13,7 @@ type OneBookType = {
 export default function BookShelfItemComponent({prop}: OneBookType){
     return <Box className = 'item'>
         <Link
-    to= {`/books/${prop._id}`}
+    to={`/books/${prop._id}`}
     className="link"
     style={{ textDecoration: "none"}}
     >

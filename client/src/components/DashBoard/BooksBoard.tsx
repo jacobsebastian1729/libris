@@ -65,14 +65,16 @@ export default function BooksBoard() {
             display: 'flex',
             justifyContent: 'right',
             paddingRight: '1rem',
-            marginBottom: '1rem',
           }}
         >
           <Button color='inherit' onClick={handleClickOpen}>
-          <LibraryAddIcon />
-          <Typography>Add More Books</Typography>
+          <LibraryAddIcon style={{color:'green'}}/>
+          <Typography style={{color:'green'}}>Add More Books</Typography>
           </Button>
           <BookForm open={open} handleClose={handleClose} />
+        </div>
+        <div style={{ paddingRight: '2rem', textAlign: 'right', marginBottom: '1rem',}}>
+          <Typography>database: {bookDataLength} books</Typography>
         </div>
       </div>
       <TableContainer
