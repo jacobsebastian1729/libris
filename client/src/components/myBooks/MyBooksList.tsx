@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Lottie from 'react-lottie';
 
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -13,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
 import { Button, Typography } from '@mui/material';
 import './MyBooksList.css';
+import animationData from '../../asset/85479-books.json'
 import { fetchBookshelfByUserIdThunk } from '../../redux/thunk/bookShelf';
 
 export default function MyBooksList() {
@@ -24,6 +26,15 @@ export default function MyBooksList() {
     dispatch(fetchBookshelfByUserIdThunk(loginUser?._id as string));
   }, []);
 
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice"
+    }
+  };
+
   return (
     <div className='mybooks'>
       {loginUser === null || loginUser._id === '' || !loginUser ? (
@@ -31,12 +42,7 @@ export default function MyBooksList() {
           <p>Please login</p>
         </div>
       ) : (
-        <div>
-          {userBooks?.length === 0 ? (
-            <div>
-              <p>Add Books</p>
-            </div>
-          ) : (
+        
             <div>
               <div className='mybook-upper'>
                 <Typography variant='h4'>
@@ -85,7 +91,16 @@ export default function MyBooksList() {
                   </List>
                 </div>
                 <div className='mybook-list'>
-                  {/* {userBooks?.map((book) => (
+                  {userBooks?.length === 0 ? <div style={{ paddingLeft: '5rem', paddingTop:'1rem'}}>
+              <Typography variant='body1' >Your bookshelf is empty.</Typography>
+              <Lottie 
+	    options={defaultOptions}
+        height={350}
+        width={350}
+      />
+            </div>: <></>}
+
+            {/* userBooks?.map((book) => (
                     <div className='mybook-item'>
                     <Link to={`/books/${book._id}`}>
                     <img src={book.thumbnail} alt={book.title} />
@@ -93,13 +108,13 @@ export default function MyBooksList() {
                     <Typography variant='body2'>{book.author}</Typography>
                     <Typography sx={{fontWeight:'bold'}}>{book.title}</Typography>
                   </div>
-                  ))}
-             */}
+                  )) */}
+          
                 </div>
               </div>
             </div>
-          )}
-        </div>
+          
+        
       )}
     </div>
   );

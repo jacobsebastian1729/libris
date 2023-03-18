@@ -2,20 +2,22 @@ import React from "react";
 import { AppDispatch, RootState } from "../../redux/store";
 import { useParams } from "react-router";
 import { useEffect } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { fetchBookDetail } from "../../redux/thunk/bookDetails";
+
 import Rating from "@mui/material/Rating";
 import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
-import "./BookDetail.css";
 import Paper from "@mui/material/Paper";
 import { Grid, CardMedia, CardContent, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useState } from "react";
+
+import "./BookDetail.css";
 import Comments from "../Comments/Comments";
-import { BookType } from "../../types/type";
+import { fetchBookDetail } from "../../redux/thunk/bookDetails";
 import { addBookToUserBookShelf } from "../../redux/thunk/user";
+import { addBookToBookShelfData } from "../../redux/thunk/bookShelf";
 // import { myBooksActions } from "../../redux/slice/myBooks";
 
 const useStyles = makeStyles({
@@ -42,14 +44,12 @@ export default function BookDetail() {
   const userId = user?._id as string
 
  const { bookId } = useParams() 
- console.log(bookId)
+ 
   const myBooksBtnHandler = (userId:string, bookId:string) => {
     if(bookId) {
       dispatch(addBookToUserBookShelf(userId, bookId))
-    } else {
-      console.log('bookId not exist')
-    }
-    
+      dispatch(addBookToBookShelfData(userId, bookId))
+    } 
   }
 
   const classes = useStyles();

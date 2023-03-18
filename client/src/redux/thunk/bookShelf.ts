@@ -20,6 +20,13 @@ export function fetchBookshelfByUserIdThunk(userId:string) {
     return async(dispatch:AppDispatch) => {
       const response = await axios.get(`${url}/${userId}`)
     const data = response.data
-    console.log(data)
+    
     }
   }
+
+export function addBookToBookShelfData(userId:string, bookId:string) {
+    return async(dispatch:AppDispatch) => {
+        const response = await axios.post(`${url}/${userId}/${bookId}`)
+        console.log(response, 'Check the bookshelves')
+    }
+}

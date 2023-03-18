@@ -4,7 +4,8 @@ import passport from "passport";
 import {
     addBookToBookShelfController,
     getBookShelfByUserId,
-    getBookShelfListController
+    getBookShelfListController,
+    addBookToBookShelfWithBookId
 } from "../controllers/bookShelf"
 
 const router = Router();
@@ -14,6 +15,8 @@ router.post(
     "/:userId",
     addBookToBookShelfController
 );
+
+router.post('/:userId/:bookId', addBookToBookShelfWithBookId)
 
 // to get all bookshelf list
 router.get(
