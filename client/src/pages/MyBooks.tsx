@@ -1,7 +1,7 @@
-import React from 'react'
+import MyBooksList from '../components/myBooks/MyBooksList'
 
 export default function MyBooks() {
   return (
-    <div>MyBooks</div>
+    <div><MyBooksList /></div>
   )
 }
