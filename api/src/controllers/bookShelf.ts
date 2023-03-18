@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import Book from '../models/Book';
 
 import BookShelf, { BookShelfDocument } from '../models/Bookshelf';
 import BookShelfService from '../services/bookShelf';
@@ -18,7 +19,7 @@ export const addBookToBookShelfController = async (
     const bookshelfOfUser: BookShelfDocument | null = await BookShelf.findOne({
       userId,
     });
-
+    console.log(bookshelfOfUser, 'do I have a bookshelf?')
     if (!bookshelfOfUser) {
       const bookshelf = await BookShelf.create({
         userId,
@@ -76,3 +77,55 @@ export const getBookShelfByUserId = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+export const addBookToBookShelfWithBookId = async (
+    req: Request,
+    res: Response
+  ) => {
+    try {
+      const  userId  = req.params.userId
+      const  bookId  = req.params.bookId
+  
+      if (!bookId) {
+        return res.status(400).json({ message: 'Book not found' });
+      }
+  
+      const bookshelfOfUser: BookShelfDocument | null = await BookShelf.findOne({
+        userId,
+      });
+      console.log('doI have a bookshelf?', bookshelfOfUser)
+      if (!bookshelfOfUser) {
+        const bookshelf = await BookShelf.create({
+          userId,
+          books: [bookId],
+        });
+        return res.status(201).json({
+          bookshelf,
+          message: 'Bookshelf created successfully',
+        });
+      }
+  
+      const existingBookIndex = bookshelfOfUser.books.findIndex(
+        (bookId) => bookId.toString() === bookId.toString()
+      );
+  
+      if (existingBookIndex !== -1) {
+        return res
+          .status(400)
+          .json({ message: 'Book already exists in your bookshelf' });
+      } else {
+        const newBook = await Book.findById(bookId)
+        console.log(newBook, 'what shape are you?')
+        bookshelfOfUser.books.push(newBook?._id);
+        await bookshelfOfUser.save();
+        return res.status(200).json({
+          bookshelfOfUser,
+          message: 'Book added to bookshelf successfully',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+  
