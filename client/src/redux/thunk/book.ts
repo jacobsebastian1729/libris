@@ -16,8 +16,6 @@ export function fetchbookData() {
 
 export function createBookThunk(bookData: BookType) {
   return async (dispatch: AppDispatch) => {
-    console.log(bookData)
     const response = axios.post(`${url}/create`, bookData)
-    console.log(response)
   }
 }

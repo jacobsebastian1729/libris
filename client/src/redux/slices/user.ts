@@ -8,6 +8,7 @@ type InitialState = {
   loginSuccess: boolean;
   serverMessage: string;
   loginUser: UserDataType | null;
+  
 };
 
 const initialState: InitialState = {

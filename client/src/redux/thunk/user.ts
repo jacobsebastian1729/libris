@@ -14,13 +14,12 @@ export function registerUser(user: UserType) {
       .post(url, user)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res, 'from register thunk');
           dispatch(userActions.setMessage('Register Success. Please log in.'));
-        } else {
-          dispatch(userActions.setMessage('Register failed.'));
-        }
+        } 
       })
-      .catch((err) => dispatch(userActions.setMessage('Server error')));
+      .catch((err) => {
+        const {message} = err.response.data
+        dispatch(userActions.setMessage(message))});
   };
 }
 
@@ -30,7 +29,6 @@ export function loginUserThunk(user: LoginUserType) {
       .post(`${url}/login`, user)
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data);
           const token = res.data.token;
           localStorage.setItem('userToken', token);
           Cookies.set('userToken', token, { expires: 7 });
@@ -38,7 +36,7 @@ export function loginUserThunk(user: LoginUserType) {
           dispatch(userActions.getLoginUser(res.data.userData))
           dispatch(userActions.setMessage(res.data.message))
         }
-        if (res.status === 400) {
+        if (res.status === 400 || res.status === 500) {
           dispatch(userActions.loginAction(false))
           dispatch(userActions.getLoginUser(null))
           dispatch(userActions.setMessage(res.data.message))
@@ -66,6 +64,6 @@ export function getUserByLogInUserId(id:string) {
 export function addBookToUserBookShelf(userId:string, bookId:string) {
   return async(dispatch:AppDispatch) => {
     const response = await axios.post(`${url}/${userId}/${bookId}`)
-    console.log(response)
+    console.log(response,'hey!')
   }
 }

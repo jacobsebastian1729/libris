@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 // MUI
@@ -13,10 +13,14 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Checkbox from '@mui/material/Checkbox';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Snackbar from '@mui/material/Snackbar';
+import { IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 // module
 import { UserType } from '../../types/type';
-import { AppDispatch } from '../../redux/store';
+import { AppDispatch, RootState } from '../../redux/store';
 import { registerUser } from '../../redux/thunk/user';
+import { userActions } from '../../redux/slices/user';
 
 const label = { inputProps: { 'aria-label': 'Checkbox' } };
 
@@ -41,19 +45,46 @@ const RegisterSchema = Yup.object().shape({
 });
 
 export default function Register() {
+  const [open, setOpen] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false);
+  const message = useSelector((state: RootState) => state.user.serverMessage);
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const registerHandler = (user: UserType) => {
     if (!user) {
-      navigate('/register')
+      navigate('/register');
       return;
     }
     if (user) {
       dispatch(registerUser(user));
-      navigate('/')
+      setOpen(true);
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
     }
   };
+
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size='small'
+        aria-label='close'
+        color='inherit'
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize='small' />
+      </IconButton>
+    </React.Fragment>
+  );
   return (
     <div className='login-div'>
       <Card sx={{ width: 500, textAlign: 'center' }}>
@@ -84,7 +115,6 @@ export default function Register() {
               }}
               validationSchema={RegisterSchema}
               onSubmit={(values) => {
-                console.log(values);
                 registerHandler(values);
               }}
             >
@@ -100,7 +130,12 @@ export default function Register() {
                     onChange={handleChange}
                   />
                   {errors.fullName && touched.fullName ? (
-                    <p className='input-error'>*{errors.fullName}</p>
+                    <p
+                      className='input-error'
+                      style={{ fontSize: '11px', color: 'red' }}
+                    >
+                      *{errors.fullName}
+                    </p>
                   ) : null}
                   <TextField
                     sx={{ width: '60%' }}
@@ -112,7 +147,12 @@ export default function Register() {
                     onChange={handleChange}
                   />
                   {errors.email && touched.email ? (
-                    <p className='input-error'>*{errors.email}</p>
+                    <p
+                      className='input-error'
+                      style={{ fontSize: '11px', color: 'red' }}
+                    >
+                      *{errors.email}
+                    </p>
                   ) : null}
                   <TextField
                     sx={{ width: '60%' }}
@@ -139,7 +179,12 @@ export default function Register() {
                     }}
                   />
                   {errors.password && touched.password ? (
-                    <p className='input-error'>*{errors.password}</p>
+                    <p
+                      className='input-error'
+                      style={{ fontSize: '11px', color: 'red' }}
+                    >
+                      *{errors.password}
+                    </p>
                   ) : null}
                   <TextField
                     sx={{ width: '60%' }}
@@ -166,7 +211,12 @@ export default function Register() {
                     }}
                   />
                   {errors.confirmPassword && touched.confirmPassword ? (
-                    <p className='input-error'>*{errors.confirmPassword}</p>
+                    <p
+                      className='input-error'
+                      style={{ fontSize: '11px', color: 'red' }}
+                    >
+                      *{errors.confirmPassword}
+                    </p>
                   ) : null}
                   <div>
                     <div
@@ -178,11 +228,12 @@ export default function Register() {
                     >
                       <Checkbox {...label} name='termsAndConditions' />
                       <Typography>I agree to the Terms of Service</Typography>
-                      
                     </div>
                     {errors.termsAndConditions ? (
-                    <p className='input-error'>*{errors.termsAndConditions}</p>
-                  ) : null}
+                      <p className='input-error'>
+                        *{errors.termsAndConditions}
+                      </p>
+                    ) : null}
                     <Button
                       type='submit'
                       style={{
@@ -191,6 +242,9 @@ export default function Register() {
                         minWidth: 250,
                         minHeight: 50,
                       }}
+                      onClick={() => {
+                        setOpen(true);
+                      }}
                     >
                       Register
                     </Button>
@@ -198,6 +252,13 @@ export default function Register() {
                 </Form>
               )}
             </Formik>
+            <Snackbar
+              open={open}
+              autoHideDuration={3000}
+              onClose={handleClose}
+              message={message}
+              action={action}
+            />
           </div>
 
           <div

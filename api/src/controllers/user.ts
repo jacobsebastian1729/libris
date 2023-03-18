@@ -17,8 +17,9 @@ export const createUserController = async (req: Request, res: Response) => {
     const { fullName, email, password } = req.body;
 
     const userExist = await User.findOne({ email });
-    if (userExist) {
-      return res.status(400).json({ message: 'This email already exists.' });
+    
+    if (userExist !== null) {
+      return res.status(400).json({message: 'Register failed.'})
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -87,7 +88,7 @@ export const logInWithPassword = async (req: Request, res: Response) => {
 
     // password not matching
     if (!match) {
-      res.status(400).json({ message: 'Please check the password again.' });
+      res.status(400).json({ message: 'Please check the email and password again.' });
       return;
     }
 

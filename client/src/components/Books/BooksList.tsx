@@ -16,7 +16,7 @@ export default function BooksList() {
   useEffect(() => {
     disPatch(fetchbookData());
   }, [disPatch]);
-  console.log(bookList); //filter
+ 
   const getUserData = useSelector(
     (state: RootState) => state.searchBook.userInput
   );

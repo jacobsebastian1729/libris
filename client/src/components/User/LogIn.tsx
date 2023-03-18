@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import { Formik, Form } from 'formik';
@@ -13,10 +13,13 @@ import { Button, InputAdornment, Typography } from '@material-ui/core';
 import ForwardIcon from '@mui/icons-material/Forward';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import Snackbar from '@mui/material/Snackbar';
+import { IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 // module
 import './LogIn.css';
 import { LoginUserType } from '../../types/type';
-import { AppDispatch } from '../../redux/store';
+import { AppDispatch, RootState } from '../../redux/store';
 import { loginUserThunk } from '../../redux/thunk/user';
 
 const LogInSchema = Yup.object().shape({
@@ -31,19 +34,46 @@ const LogInSchema = Yup.object().shape({
 });
 
 export default function LogIn() {
+  const [open, setOpen] = useState(false);
+  const message = useSelector((state: RootState) => state.user.serverMessage);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false);
 
   const loginHandler = (user: LoginUserType) => {
     if (!user) {
+      dispatch(loginUserThunk(user));
+      navigate('/login');
       return;
     }
     if (user) {
-      dispatch(loginUserThunk(user))
-      navigate('/')
+      dispatch(loginUserThunk(user));
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
     }
   };
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+  const action = (
+    <React.Fragment>
+      <IconButton
+        size='small'
+        aria-label='close'
+        color='inherit'
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize='small' />
+      </IconButton>
+    </React.Fragment>
+  );
 
   return (
     <div className='login-div'>
@@ -86,7 +116,12 @@ export default function LogIn() {
                     onChange={handleChange}
                   />
                   {errors.email && touched.email ? (
-                    <p className='input-error'>*{errors.email}</p>
+                    <p
+                      className='input-error'
+                      style={{ fontSize: '11px', color: 'red' }}
+                    >
+                      *{errors.email}
+                    </p>
                   ) : null}
                   <TextField
                     sx={{ width: '70%' }}
@@ -113,7 +148,12 @@ export default function LogIn() {
                     }}
                   />
                   {errors.password && touched.password ? (
-                    <p className='input-error'>*{errors.password}</p>
+                    <p
+                      className='input-error'
+                      style={{ fontSize: '11px', color: 'red' }}
+                    >
+                      *{errors.password}
+                    </p>
                   ) : null}
                   <Button
                     type='submit'
@@ -123,12 +163,22 @@ export default function LogIn() {
                       minWidth: 250,
                       minHeight: 50,
                     }}
+                    onClick={() => {
+                      setOpen(true);
+                    }}
                   >
                     LOG IN
                   </Button>
                 </Form>
               )}
             </Formik>
+            <Snackbar
+              open={open}
+              autoHideDuration={3000}
+              onClose={handleClose}
+              message={message}
+              action={action}
+            />
           </div>
 
           <div
