@@ -69,9 +69,9 @@ export const getBookByid = async (req: Request, res: Response) => {
     const bookId = req.params.bookId;
     const data = await bookService.getBookById(bookId);
     if (!data) {
-      res.status(404).json("book not found");
+      return res.status(404).json("book not found");
     }
-    res.status(200).json(data);
+    return res.status(200).json(data);
   } catch (error) {
     res.status(400).json({ message: "somthing wrong" + error });
     console.log(error);
