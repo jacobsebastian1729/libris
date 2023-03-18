@@ -5,14 +5,13 @@ import { bookShelfListActions } from "../slices/bookShelf";
 
 const url = "http://localhost:8000/bookshelves/";
 
-export function getBookShelfList(userId: string) {
+export function getBookShelfList() {
     return async (dispatch: AppDispatch) => {
-        const userToken = localStorage.getItem("userToken");
-        const res = await axios.get(`${url}/${userId}`, {
-            headers: { Authorization: `Bearer $ {userToken}`},
-        });
+        const res = await axios.get(`${url}`);
         const bookShelfData = res.data;
+        console.log(bookShelfData, 'change to this. initial state')
         dispatch(bookShelfListActions.getBookShelfList(bookShelfData));
+
     };
 };
 
