@@ -40,8 +40,11 @@ export type BookList = BookType & {
 }
 
 export type BookShelf = {
-    userId: string;
-    bookList: BookType[];
+    userId: {
+        email: string,
+        _id: string,
+    },
+    books: BookType[];
 }
 
 export type CommentType = {
