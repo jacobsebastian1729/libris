@@ -15,3 +15,11 @@ export function getBookShelfList(userId: string) {
         dispatch(bookShelfListActions.getBookShelfList(bookShelfData));
     };
 };
+
+export function fetchBookshelfByUserIdThunk(userId:string) {
+    return async(dispatch:AppDispatch) => {
+      const response = await axios.get(`${url}/${userId}`)
+    const data = response.data
+    console.log(data)
+    }
+  }

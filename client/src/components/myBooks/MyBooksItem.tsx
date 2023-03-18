@@ -15,8 +15,10 @@ function MyBooksItem({ book }: Prop) {
   const myBook = useSelector((state: RootState) => state.bookItem.bookDetails);
 
   useEffect(() => {
-    dispatch(fetchBookDetail(book));
-  }, [dispatch, book]);
+    dispatch(fetchBookDetail(book))
+    
+  }, []);
+  console.log(book)
   return (
     <div className='mybook-item'>
       <Link to={`/books/${myBook._id}`}>

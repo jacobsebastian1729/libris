@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import List from '@mui/material/List';
@@ -9,14 +9,20 @@ import SportsScoreIcon from '@mui/icons-material/SportsScore';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 
 import MyBooksItem from './MyBooksItem';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
 import { Button, Typography } from '@mui/material';
 import './MyBooksList.css';
+import { fetchBookshelfByUserIdThunk } from '../../redux/thunk/bookShelf';
 
 export default function MyBooksList() {
   const loginUser = useSelector((state: RootState) => state.user.loginUser);
   const userBooks = loginUser?.bookShelves;
+
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(fetchBookshelfByUserIdThunk(loginUser?._id as string));
+  }, []);
 
   return (
     <div className='mybooks'>
@@ -79,11 +85,16 @@ export default function MyBooksList() {
                   </List>
                 </div>
                 <div className='mybook-list'>
-              
-                  {userBooks?.map((book) => (
-                    <MyBooksItem book={book}></MyBooksItem>
+                  {/* {userBooks?.map((book) => (
+                    <div className='mybook-item'>
+                    <Link to={`/books/${book._id}`}>
+                    <img src={book.thumbnail} alt={book.title} />
+                    </Link>
+                    <Typography variant='body2'>{book.author}</Typography>
+                    <Typography sx={{fontWeight:'bold'}}>{book.title}</Typography>
+                  </div>
                   ))}
-            
+             */}
                 </div>
               </div>
             </div>
