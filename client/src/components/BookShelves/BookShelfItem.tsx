@@ -6,7 +6,6 @@ import './BookShelf.css'
 import Box from "@mui/material/Box";
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
 
 import { BookShelf } from '../../types/type'

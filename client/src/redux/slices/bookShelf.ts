@@ -6,6 +6,18 @@ import { UserDataType } from "../../types/type";
 type InitialState = {
     bookShelfList: BookShelf[];
     loginUser: UserDataType;
+    myBooksData:{ 
+    author:string;
+    category: string;
+    description: string;
+    genre: string;
+    language: string;
+    rating: number;
+    thumbnail:string;
+    title:string;
+    _id: string;
+}[],
+   
 };
 
 const initialState: InitialState = {
@@ -38,7 +50,19 @@ const initialState: InitialState = {
         followers: [],
         following: [],
         bookShelves: []
-      }
+      },
+      myBooksData: [{
+        author:'',
+        category: '',
+        description: '',
+        genre: '',
+        language: '',
+        rating: 0,
+        thumbnail:'',
+        title: '',
+        _id: ''
+        
+      }]  
 
 };
 
@@ -49,6 +73,9 @@ const bookShelfListSlice = createSlice ({
         getBookShelfList: (state, action) => {
             state.bookShelfList = action.payload;
         },
+        setMyBooks: (state,action) => {
+            state.myBooksData = action.payload
+        }
     },
 })
 

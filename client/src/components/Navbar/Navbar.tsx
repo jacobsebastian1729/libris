@@ -103,7 +103,7 @@ export default function Navbar() {
               Books
             </Button>
           </Link>
-          {userId && 
+          {userId && userLogin !== null && 
           <Link
             to={userId ? `/${userId}/books` : `/mybooks`}
             style={{ textDecoration: 'none' }}
