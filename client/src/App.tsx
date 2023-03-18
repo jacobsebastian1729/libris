@@ -29,6 +29,7 @@ function App() {
           <Route path='/books' element={<Books />} />
           <Route path='/books/:bookId' element={<BookDetail />} />
           <Route path='/mybooks' element={<MyBooks />} />
+          <Route path='/:userId/books' element={<MyBooks />} />
           <Route path='/:userId/achievment' element={<MyAchievement />} />
           <Route path='/:userId/setting' element={<UserInformation />} />
           <Route path='/bookshelves/all' element={<BookShelves />} />

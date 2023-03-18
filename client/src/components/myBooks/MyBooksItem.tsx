@@ -1,26 +1,31 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { AppDispatch, RootState } from "../../redux/store";
-import { BookType } from "../../types/type";
+import { AppDispatch, RootState } from '../../redux/store';
+import { fetchBookDetail } from '../../redux/thunk/bookDetails';
+import { Typography } from '@mui/material';
 
 type Prop = {
-    book: string;
-}
-
+  book: string;
+};
 
 function MyBooksItem({ book }: Prop) {
-    // const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
+  const myBook = useSelector((state: RootState) => state.bookItem.bookDetails);
 
+  useEffect(() => {
+    dispatch(fetchBookDetail(book));
+  }, [dispatch, book]);
   return (
-    <div>
-        <p>book</p>
-        {/* <p>{myBook.thumbnail}</p>
-        <p>{myBook.title}</p>
-        <p>{myBook.author}</p> */}
+    <div className='mybook-item'>
+      <Link to={`/books/${myBook._id}`}>
+      <img src={myBook.thumbnail} alt={myBook.title} />
+      </Link>
+      <Typography variant='body2'>{myBook.author}</Typography>
+      <Typography sx={{fontWeight:'bold'}}>{myBook.title}</Typography>
     </div>
-  )
+  );
 }
 
 export default MyBooksItem;
