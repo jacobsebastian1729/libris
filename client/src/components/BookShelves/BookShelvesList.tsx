@@ -15,10 +15,11 @@ export default function BookShelvesList() {
   const userId = userInformation?._id as string;
   const bookShelfList = useSelector((state: RootState) => state.bookShelf.bookShelfList);
 
+
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(getBookShelfList(userId));
+    dispatch(getBookShelfList());
   }, [dispatch, userId])
 
   console.log(bookShelfList, "bookShelfList")
