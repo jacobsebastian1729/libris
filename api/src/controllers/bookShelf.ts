@@ -65,7 +65,7 @@ export const getBookShelfListController = async (req: Request, res: Response) =>
 export const getBookShelfByUserId = async (req: Request, res: Response) => {
   try {
     const userId  = req.params.params
-    const bookShelf = await BookShelf.find().populate('userId')
+    const bookShelf = await BookShelf.find().populate('books').populate('userId')
     
     if (!bookShelf) {
       return res.status(404).json({ message: 'Bookshelf not found' });

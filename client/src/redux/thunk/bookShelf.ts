@@ -18,8 +18,11 @@ export function getBookShelfList() {
 export function fetchBookshelfByUserIdThunk(userId:string) {
     return async(dispatch:AppDispatch) => {
       const response = await axios.get(`${url}/${userId}`)
-    const data = response.data
-    
+    const data = response.data.bookShelf
+    const index = data.findIndex((shelf:any) => shelf.userId._id === userId)
+    console.log(index)
+    const bookData = data[index].books
+    dispatch(bookShelfListActions.setMyBooks(bookData))
     }
   }
 

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Lottie from 'react-lottie';
 
 import List from '@mui/material/List';
@@ -14,17 +14,18 @@ import { AppDispatch, RootState } from '../../redux/store';
 import { Button, Typography } from '@mui/material';
 import './MyBooksList.css';
 import animationData from '../../asset/85479-books.json';
-import { fetchBookshelfByUserIdThunk } from '../../redux/thunk/bookShelf';
 import MyBooksItem from './MyBooksItem';
+import { fetchBookshelfByUserIdThunk } from '../../redux/thunk/bookShelf';
 
 export default function MyBooksList() {
   const loginUser = useSelector((state: RootState) => state.user.loginUser);
-  const userBooks = loginUser?.bookShelves;
+  const userBooks = useSelector((state:RootState)=> state.bookShelf.myBooksData)
+  console.log(userBooks, 'hallo allemaal')
 
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
-    dispatch(fetchBookshelfByUserIdThunk(loginUser?._id as string));
-  }, []);
+    dispatch(fetchBookshelfByUserIdThunk(loginUser?._id as string))
+  }, [dispatch, loginUser?._id]);
 
   const defaultOptions = {
     loop: true,
@@ -98,7 +99,7 @@ export default function MyBooksList() {
                   <Lottie options={defaultOptions} height={350} width={350} />
                 </div>
               ) }
-              {userBooks?.length !== 0 && userBooks?.map((book) => <MyBooksItem book={book}/>)}
+              {userBooks?.length !== 0 && userBooks.map((book) => <MyBooksItem book={book}/>)}
             </div>
           </div>
         </div>

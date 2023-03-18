@@ -89,14 +89,14 @@ export default function UserBoard() {
                 <TableCell align='right'>
                   {row.isAdmin ? <Typography color={red[800]}>Admin</Typography> : <Typography>User</Typography>}
                 </TableCell>
-                <TableCell align='right'>
-                  {row.bookShelves.length} books
+                <TableCell align='right' style={{fontSize: '20px', fontWeight: 'bold'}}>
+                  {row.bookShelves.length} 
                 </TableCell>
-                <TableCell align='right'>
-                  {row.following.length} users
+                <TableCell align='right' style={{fontSize: '20px', fontWeight: 'bold'}}>
+                  {row.following.length} 
                 </TableCell>
-                <TableCell align='right'>
-                  {row.followers.length} users
+                <TableCell align='right' style={{fontSize: '20px', fontWeight: 'bold'}}>
+                  {row.followers.length} 
                 </TableCell>
                 {/* <TableCell align="right">{row.comments}</TableCell> */}
               </TableRow>
