@@ -9,6 +9,7 @@ import {
   logInWithPassword,
   updatePasswordController,
   updateUserByIdController,
+  changeUserStatusController
 } from '../controllers/user';
 
 const router = Router();
@@ -33,5 +34,7 @@ router.post('/:userId/:bookId', addBookToUserController)
 //   passport.authenticate('google-id-token', { session: false }),
 //   googleAuthenticate
 // );
+
+router.put('/status/:userId', changeUserStatusController)
 
 export default router;

@@ -3,7 +3,7 @@ import Cookies from 'js-cookie'
 
 import { AppDispatch } from '../store';
 import { userActions } from '../slices/user';
-import { LoginUserType, UserDataType, UserType } from '../../types/type';
+import { LoginUserType,  UserType } from '../../types/type';
 import { PORT } from '../../port/Port';
 
 const url = `http://localhost:${PORT}/user`;
@@ -57,13 +57,18 @@ export function getAllUserData() {
 export function getUserByLogInUserId(id:string) {
   return async (dispatch: AppDispatch) => {
     const response = await axios.get(`${url}/${id}`)
-    // dispatch(userActions.getLoginUser(response.data))
   }
 }
 
 export function addBookToUserBookShelf(userId:string, bookId:string) {
   return async(dispatch:AppDispatch) => {
     const response = await axios.post(`${url}/${userId}/${bookId}`)
-    console.log(response,'hey!')
+  }
+}
+
+export function userStatusChangeThunk(userId:string) {
+  return async(dispatch:AppDispatch)=>  {
+   const response = await axios.put(`${url}/status/${userId}`)
+   console.log(response, 'status')
   }
 }
