@@ -8,6 +8,7 @@ type InitialState = {
   loginSuccess: boolean;
   serverMessage: string;
   loginUser: UserDataType | null;
+  loginUserBookShelf : string[]
   
 };
 
@@ -26,6 +27,7 @@ const initialState: InitialState = {
     bookShelves: [''],
     // comments: []
   },
+  loginUserBookShelf: ['']
 };
 
 const userSlice = createSlice({
@@ -49,6 +51,9 @@ const userSlice = createSlice({
       state.loginSuccess = false;
       localStorage.removeItem('userToken');
     },
+    setUserBookShelf : (state, action) => {
+      state.loginUserBookShelf = action.payload
+    }
   },
 });
 

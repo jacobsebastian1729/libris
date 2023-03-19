@@ -58,13 +58,23 @@ export function getAllUserData() {
   return async (dispatch: AppDispatch) => {
     const response = await axios.get(`${url}`);
     const userData = await response.data;
-    dispatch(userActions.getAllUsers(userData));
+    console.log(userData)
   };
 }
 
 export function getUserByLogInUserId(id: string) {
   return async (dispatch: AppDispatch) => {
     const response = await axios.get(`${url}/${id}`);
+  };
+}
+
+
+export function getUserBookByLogInUserId(id: string) {
+  return async (dispatch: AppDispatch) => {
+    const response = await axios.get(`${url}/${id}`);
+    const userData = response.data
+    const loginUserBookshelf = userData.bookShelves
+    dispatch(userActions.setUserBookShelf(loginUserBookshelf))
   };
 }
 

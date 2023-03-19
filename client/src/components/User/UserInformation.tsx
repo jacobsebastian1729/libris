@@ -26,6 +26,7 @@ import { useNavigate } from 'react-router-dom';
 import { userActions } from '../../redux/slices/user';
 
 import { fetchUserFollowing, fetchUserFollowers } from '../../redux/thunk/following';
+import { getUserBookByLogInUserId, getUserByLogInUserId } from '../../redux/thunk/user';
 
 const EditSchema = Yup.object().shape({
   fullName: Yup.string().nullable().notRequired(),
@@ -47,12 +48,18 @@ const validationSchema = Yup.object().shape({
     .required('Password confirmation is required'),
 });
 
-export default function UserInformation() {
+type Prop = {
+  mode: string;
+}
+
+export default function UserInformation({mode}:Prop) {
   const [open, setOpen] = React.useState(false);
   const [passwordChangeFormOpen, setPasswordChangeFormOpen] =
     React.useState<boolean>(false);
   const user = useSelector((state: RootState) => state.user.loginUser);
   const userId = user?._id as string;
+  const userBookshelf = useSelector((state:RootState) => state.user.loginUserBookShelf)
+ 
   const token = localStorage.getItem('userToken') as string;
 
   const dispatch = useDispatch<AppDispatch>();
@@ -72,6 +79,10 @@ export default function UserInformation() {
 
   ////////////
 
+  useEffect(()=>{
+    dispatch(getUserBookByLogInUserId(userId))
+  },[])
+  
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -153,7 +164,7 @@ export default function UserInformation() {
 
   return (
     <div className='user-information'>
-      <div className='profile'>
+      <div className='profile' style={{backgroundColor: mode === 'dark' ? '#4e342e' : 'black'}}>
         <h2>{user?.fullName}</h2>
 
         <div style={{ display: 'flex' }}>
@@ -374,15 +385,15 @@ export default function UserInformation() {
               },
             }}
           >
-            <Paper elevation={8} sx={{ paddingTop: '2rem' }}>
-              <Typography variant='h3'>{user?.bookShelves?.length}</Typography>
+            <Paper elevation={8} sx={{ paddingTop: '2rem', backgroundColor: mode === 'dark' ? '#4e342e' : 'white', }}>
+              <Typography variant='h3'>{userBookshelf.length}</Typography>
               <Typography variant='h6'>Books</Typography>
             </Paper>
-            <Paper elevation={8} sx={{ paddingTop: '2rem' }}>
+            <Paper elevation={8} sx={{ paddingTop: '2rem', backgroundColor: mode === 'dark' ? '#4e342e' : 'white' }}>
               <Typography variant='h3'>{userFollowersList.length}</Typography>
               <Typography variant='h6'>Followers</Typography>
             </Paper>
-            <Paper elevation={8} sx={{ paddingTop: '2rem' }}>
+            <Paper elevation={8} sx={{ paddingTop: '2rem', backgroundColor: mode === 'dark' ? '#4e342e' : 'white' }}>
               <Typography variant='h3'>{userFollowingList.length}</Typography>
               <Typography variant='h6'>Following</Typography>
             </Paper>
@@ -390,8 +401,8 @@ export default function UserInformation() {
         </div>
       </div>
 
-      <div className='about-div'>
-        <h2>ABOUT</h2>
+      <div className='about-div' >
+        <h2 style={{color: mode === 'dark' ? 'white' : 'black'}}>ABOUT</h2>
         <div className='about'>
           {user?.about_me ? (
             <Typography>{user.about_me}</Typography>
