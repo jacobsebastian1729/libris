@@ -69,7 +69,7 @@ function App() {
             <Route path='/dashboard/books' element={<BooksBoard />} />
             <Route path='/subscription' element={<Subscription mode={mode}/>} />
           </Routes>
-          <Footer />
+          <Footer mode={mode}/>
         </BrowserRouter>
       </div>
     </ThemeProvider>
