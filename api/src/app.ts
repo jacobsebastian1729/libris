@@ -3,7 +3,7 @@ import cors from 'cors';
 import Express from 'express';
 import passport from 'passport';
 
-import { jwtStrategy } from './config/passport';
+import { jwtAdminStrategy, jwtStrategy } from './config/passport';
 import userRouter from './routes/user';
 import commentsRouter from "./routes/comments";
 import bookShelfRouter from "./routes/bookShelf"
@@ -15,6 +15,7 @@ app.use(Express.json());
 app.use(cors());
 app.use(passport.initialize());
 passport.use(jwtStrategy)
+passport.use('jwtAdmin', jwtAdminStrategy);
 
 // routes
 app.use("/bookshelves", bookShelfRouter)

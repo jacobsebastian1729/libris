@@ -22,6 +22,25 @@ export const jwtStrategy = new JwtStrategy(
   }
 );
 
+export const jwtAdminStrategy = new JwtStrategy(
+  {
+    secretOrKey: JWT_SECRET,
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+  },
+  async (payload, done) => {
+    const userEmail = payload.email;
+    const foundUser = await UserServices.findUserByEmail(userEmail);
+    if (!foundUser) {
+      return 'no user';
+    }
+    if (foundUser.isAdmin === true) {
+      done(null, foundUser);
+    } else {
+      done(null, false);
+    }
+  }
+);
+
 const Client_ID = process.env.CLIENT_ID as string;
 
 export const googleStrategy = new GoogleTokenStrategy(
@@ -40,3 +59,5 @@ export const googleStrategy = new GoogleTokenStrategy(
     done(null, user);
   }
 );
+
+
