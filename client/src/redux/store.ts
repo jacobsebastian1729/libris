@@ -4,6 +4,7 @@ import { bookReducer } from "./slices/book";
 import userReducer from "./slices/user";
 import bookShelfListReducer from "./slices/bookShelf";
 import commentsReducer from "./slices/comment";
+import followReducer from "./slices/following";
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     bookShelf: bookShelfListReducer,
     commentList: commentsReducer,
     searchBook: searchReducer,
+    followList: followReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),

@@ -58,3 +58,23 @@ export type CommentType = {
     parentCommentId: string;
     _id:string;
 } 
+
+export type UserFollowingType ={
+    _id: string;
+    userId:string;
+    followingId: {
+        _id: string;
+        email: string;
+    };
+
+} 
+
+export type UserFollowersType ={
+    _id: string;
+    userId:{
+        _id: string;
+        email: string;
+    };
+    followingId: string;
+
+}
