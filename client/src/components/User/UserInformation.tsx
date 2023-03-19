@@ -25,6 +25,8 @@ import { UserDataType } from '../../types/type';
 import { useNavigate } from 'react-router-dom';
 import { userActions } from '../../redux/slices/user';
 
+import { fetchUserFollowing, fetchUserFollowers } from '../../redux/thunk/following';
+
 const EditSchema = Yup.object().shape({
   fullName: Yup.string().nullable().notRequired(),
   email: Yup.string().email('Invalid email').nullable().notRequired(),
@@ -54,6 +56,21 @@ export default function UserInformation() {
   const token = localStorage.getItem('userToken') as string;
 
   const dispatch = useDispatch<AppDispatch>();
+
+  ////////following/folloers////
+
+  const userFollowingList = useSelector((state: RootState) => state.followList.FollowingList)
+  const userFollowersList = useSelector((state: RootState) => state.followList.FollowersList)
+
+  const userFollowingUrl = `http://localhost:8000/following/followers/${userId}`
+  const userFollowersUrl = `http://localhost:8000/following/followings/${userId}`
+
+  useEffect(() => {
+    dispatch(fetchUserFollowing(userFollowingUrl));
+    dispatch(fetchUserFollowers(userFollowersUrl));
+  }, [dispatch, userFollowersUrl, userFollowingUrl])
+
+  ////////////
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -355,11 +372,11 @@ export default function UserInformation() {
               <Typography variant='h6'>Books</Typography>
             </Paper>
             <Paper elevation={8} sx={{ paddingTop: '2rem' }}>
-              <Typography variant='h3'>{user?.followers?.length}</Typography>
+              <Typography variant='h3'>{userFollowersList.length}</Typography>
               <Typography variant='h6'>Followers</Typography>
             </Paper>
             <Paper elevation={8} sx={{ paddingTop: '2rem' }}>
-              <Typography variant='h3'>{user?.following?.length}</Typography>
+              <Typography variant='h3'>{userFollowingList.length}</Typography>
               <Typography variant='h6'>Following</Typography>
             </Paper>
           </Box>
