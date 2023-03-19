@@ -25,16 +25,13 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 import { AppDispatch, RootState } from '../../redux/store';
 import { userActions } from '../../redux/slices/user';
-import './NavBar.css'
-
-
+import './NavBar.css';
 
 type Prop = {
   mode: string;
   toggleMode: Function;
 };
 export default function Navbar({ mode, toggleMode }: Prop) {
-  
   const userLogin = useSelector((state: RootState) => state.user.loginUser);
   const [userId, setUserId] = useState<string | null>(null);
   const [initial, setInitial] = useState<string | null>(null);
@@ -55,19 +52,19 @@ export default function Navbar({ mode, toggleMode }: Prop) {
     title: {
       flexGrow: 1,
       textAlign: 'left',
-      color: (mode === 'dark') ? 'white' : 'black'
+      color: mode === 'dark' ? 'white' : 'black',
     },
     navButton: {
       margin: theme.spacing(0, 1),
-      color: (mode === 'dark') ? 'white' : 'black'
+      color: mode === 'dark' ? 'white' : 'black',
     },
     rightNavButton: {
       margin: theme.spacing(0, 1),
-      color: (mode === 'dark') ? 'white' : 'black'
+      color: mode === 'dark' ? 'white' : 'black',
     },
     appbar: {
-      backgroundColor: (mode === 'dark') ? '#4e342e' : 'white',
-      color: (mode === 'dark') ? 'white' : 'black'
+      backgroundColor: mode === 'dark' ? '#4e342e' : 'white',
+      color: mode === 'dark' ? 'white' : 'black',
     },
     darkThemeIcon: {
       color: 'black',
@@ -103,12 +100,11 @@ export default function Navbar({ mode, toggleMode }: Prop) {
     }
   }, [userLogin]);
 
-  console.log('mode', mode)
+  console.log('mode', mode);
 
   return (
     <div className={classes.root}>
-      <AppBar position='static' className={classes.appbar}
-     >
+      <AppBar position='static' className={classes.appbar}>
         <Toolbar>
           <Link to='/' style={{ textDecoration: 'none', marginRight: '2rem' }}>
             <Typography variant='h3' className={classes.title}>
@@ -226,13 +222,17 @@ export default function Navbar({ mode, toggleMode }: Prop) {
                 </Link>
 
                 <Divider />
-
-                <MenuItem onClick={handleClose} className={classes.appbar}>
-                  <ListItemIcon>
-                    <AddBoxIcon fontSize='small' />
-                  </ListItemIcon>
-                  Subscription
-                </MenuItem>
+                <Link
+                  to='/subscription'
+                  style={{ textDecoration: 'none', color: 'black' }}
+                >
+                  <MenuItem onClick={handleClose} className={classes.appbar}>
+                    <ListItemIcon>
+                      <AddBoxIcon fontSize='small' />
+                    </ListItemIcon>
+                    Subscription
+                  </MenuItem>
+                </Link>
                 <Link
                   to={`/${userId}/setting`}
                   style={{ textDecoration: 'none', color: 'black' }}
@@ -246,7 +246,7 @@ export default function Navbar({ mode, toggleMode }: Prop) {
                 </Link>
 
                 <MenuItem
-                className={classes.appbar}
+                  className={classes.appbar}
                   onClick={() => {
                     handleClose();
                     logoutHandler();

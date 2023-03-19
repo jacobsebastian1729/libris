@@ -33,11 +33,11 @@ const LogInSchema = Yup.object().shape({
     ),
 });
 
-type Prop ={
-  mode: string
-}
+type Prop = {
+  mode: string;
+};
 
-export default function LogIn({mode}: Prop) {
+export default function LogIn({ mode }: Prop) {
   const [open, setOpen] = useState(false);
   const message = useSelector((state: RootState) => state.user.serverMessage);
   const dispatch = useDispatch<AppDispatch>();
@@ -81,7 +81,13 @@ export default function LogIn({mode}: Prop) {
 
   return (
     <div className='login-div'>
-      <Card sx={{ width: 500, textAlign: 'center', backgroundColor: (mode==='dark')? '#4e342e': 'white' }} >
+      <Card
+        sx={{
+          width: 500,
+          textAlign: 'center',
+          backgroundColor: mode === 'dark' ? '#4e342e' : 'white',
+        }}
+      >
         <CardHeader
           title='Welcome to LIBRIS'
           sx={{ borderBottom: '1px solid black' }}
