@@ -44,7 +44,6 @@ const rows = [];
 export default function UserBoard() {
   const allUsers = useSelector((state: RootState) => state.user.users);
   const [status, setStatus] = useState<string>('inactive');
-  console.log(allUsers.length)
 
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
@@ -64,6 +63,9 @@ export default function UserBoard() {
     <div>
       <div style={{ textAlign: 'center', marginTop: '2rem' }}>
         <Typography variant='h2'>User Management</Typography>
+      </div>
+      <div style={{ textAlign: 'right', paddingRight: '3rem', marginBottom: '2rem'}}>
+        <Typography>database : {allUsers.length} users</Typography>
       </div>
       <TableContainer component={Paper} sx={{ marginLeft: '.5rem' }}>
         <Table aria-label='simple table' stickyHeader>
