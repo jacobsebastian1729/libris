@@ -34,19 +34,22 @@ type Prop = {
 export default function Subscription({ mode }: Prop) {
     const loginUser = useSelector((state:RootState)=> state.user.loginUser)
     const loginUserId = loginUser?._id as string
+    const status = useSelector((state:RootState)=> state.user.status)
 
     const dispatch = useDispatch<AppDispatch>()
     const subscribeHandler = (userId:string) => {
         dispatch(userSubscribe(userId))
     }
 
+    console.log('is it changing?', status)
+
   return (
     <div>
-      <div style={{ padding: '3rem' }}>
+      <div style={{textAlign:'center', marginBottom: '2rem'}}>
         
-        {loginUser?.status === 'inactive' ?<Typography variant='h3'>
-          Get access to make your bookshelf and connect with others.
-        </Typography>: <Typography variant='h3'>You are a subscriber.</Typography>}
+        {status === 'inactive' ?<div style={{ paddingTop:'3rem', paddingLeft:'20rem', paddingRight:'20rem' }}><Typography variant='h3'>
+          Subscribe to make your bookshelf and connect with others.
+        </Typography></div>: <div style={{ paddingTop:'3rem', color: '#673ab7' }}><Typography variant='h3'>THANK YOU</Typography><Typography variant='h4'>for subscribing.</Typography></div>}
         
       </div>
       <div className='dashboard'>
