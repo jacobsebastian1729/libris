@@ -7,6 +7,9 @@ import Button from '@mui/material/Button';
 import Lottie from 'react-lottie';
 import search from '../../asset/85474-search.json';
 import study from '../../asset/107357-students.json';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../redux/store';
+import { userSubscribe } from '../../redux/thunk/user';
 
 const defaultOptions1 = {
   loop: true,
@@ -29,12 +32,22 @@ type Prop = {
   mode: string;
 };
 export default function Subscription({ mode }: Prop) {
+    const loginUser = useSelector((state:RootState)=> state.user.loginUser)
+    const loginUserId = loginUser?._id as string
+
+    const dispatch = useDispatch<AppDispatch>()
+    const subscribeHandler = (userId:string) => {
+        dispatch(userSubscribe(userId))
+    }
+
   return (
     <div>
       <div style={{ padding: '3rem' }}>
-        <Typography variant='h3'>
+        
+        {loginUser?.status === 'inactive' ?<Typography variant='h3'>
           Get access to make your bookshelf and connect with others.
-        </Typography>
+        </Typography>: <Typography variant='h3'>You are a subscriber.</Typography>}
+        
       </div>
       <div className='dashboard'>
         <Card
@@ -91,7 +104,7 @@ export default function Subscription({ mode }: Prop) {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size='small'>Subscribe</Button>
+            <Button size='small' onClick={()=>subscribeHandler(loginUserId)}>Subscribe</Button>
           </CardActions>
         </Card>
       </div>
