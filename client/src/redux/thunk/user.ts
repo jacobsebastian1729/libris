@@ -58,7 +58,7 @@ export function getAllUserData() {
   return async (dispatch: AppDispatch) => {
     const response = await axios.get(`${url}`);
     const userData = await response.data;
-    console.log(userData)
+    dispatch(userActions.getAllUsers(userData))
   };
 }
 

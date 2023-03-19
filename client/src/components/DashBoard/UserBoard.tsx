@@ -44,6 +44,7 @@ const rows = [];
 export default function UserBoard() {
   const allUsers = useSelector((state: RootState) => state.user.users);
   const [status, setStatus] = useState<string>('inactive');
+  console.log(allUsers.length)
 
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
