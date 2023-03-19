@@ -16,6 +16,7 @@ import './MyBooksList.css';
 import animationData from '../../asset/85479-books.json';
 import MyBooksItem from './MyBooksItem';
 import { fetchBookshelfByUserIdThunk } from '../../redux/thunk/bookShelf';
+import MyBooks from '../../pages/MyBooks';
 
 export default function MyBooksList() {
   const loginUser = useSelector((state: RootState) => state.user.loginUser);
@@ -35,6 +36,8 @@ export default function MyBooksList() {
       preserveAspectRatio: 'xMidYMid slice',
     },
   };
+
+  console.log('why?', userBooks)
 
   return (
     <div className='mybooks'>
@@ -86,12 +89,12 @@ export default function MyBooksList() {
                   <ListItemIcon>
                     <LibraryBooksIcon />
                   </ListItemIcon>
-                  <ListItemText primary={`All ${userBooks?.length}`} />
+                  <ListItemText primary={`All ${userBooks[0]._id === '' ? 0 : userBooks?.length}`} />
                 </ListItem>
               </List>
             </div>
             <div className='mybook-list'>
-              {userBooks?.length === 0 && (
+              {userBooks?.length === 0 || userBooks[0]._id === '' && (
                 <div style={{ paddingLeft: '5rem', paddingTop: '1rem' }}>
                   <Typography variant='body1'>
                     Your bookshelf is empty.
@@ -99,7 +102,7 @@ export default function MyBooksList() {
                   <Lottie options={defaultOptions} height={350} width={350} />
                 </div>
               ) }
-              {userBooks?.length !== 0 && userBooks.map((book) => <MyBooksItem book={book}/>)}
+              {userBooks?.length !== 0 && userBooks[0]._id !== '' && userBooks.map((book) => <MyBooksItem book={book}/>)}
             </div>
           </div>
         </div>

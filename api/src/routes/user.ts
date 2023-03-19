@@ -9,7 +9,8 @@ import {
   logInWithPassword,
   updatePasswordController,
   updateUserByIdController,
-  changeUserStatusController
+  changeUserStatusController,
+  userSubscribeAndChangeStatus
 } from '../controllers/user';
 
 const router = Router();
@@ -36,5 +37,6 @@ router.post('/:userId/:bookId', addBookToUserController)
 // );
 
 router.put('/status/:userId', changeUserStatusController)
+router.put('/subscribe/:userId', userSubscribeAndChangeStatus)
 
 export default router;

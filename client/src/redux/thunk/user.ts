@@ -90,3 +90,10 @@ export function userStatusChangeThunk(userId: string) {
     console.log(response, 'status');
   };
 }
+
+export function userSubscribe(userId: string) {
+  return async(dispatch: AppDispatch) => {
+    const response = await axios.put(`${url}/subscribe/${userId}`)
+    console.log(response, 'subscribe response')
+  }
+}
