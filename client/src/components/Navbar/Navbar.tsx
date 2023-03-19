@@ -7,7 +7,6 @@ import Box from '@mui/material/Box';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@mui/material/IconButton';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@mui/material/Avatar';
@@ -21,42 +20,24 @@ import Logout from '@mui/icons-material/Logout';
 import PeopleIcon from '@mui/icons-material/People';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 import { AppDispatch, RootState } from '../../redux/store';
 import { userActions } from '../../redux/slices/user';
+import './NavBar.css'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    borderTop: '5px solid black',
-  },
-  title: {
-    flexGrow: 1,
-    textAlign: 'left',
-    color: 'black',
-  },
-  navButton: {
-    margin: theme.spacing(0, 1),
-    color: 'black',
-  },
-  rightNavButton: {
-    margin: theme.spacing(0, 1),
-    color: 'black',
-  },
-  appBar: {
-    backgroundColor: 'white',
-  },
-  darkThemeIcon: {
-    color: 'black',
-    cursor: 'pointer',
-  },
-}));
 
-export default function Navbar() {
-  const classes = useStyles();
+
+type Prop = {
+  mode: string;
+  toggleMode: Function;
+};
+export default function Navbar({ mode, toggleMode }: Prop) {
+  
   const userLogin = useSelector((state: RootState) => state.user.loginUser);
   const [userId, setUserId] = useState<string | null>(null);
-  const [initial, setInitial] = useState<string | null>(null)
+  const [initial, setInitial] = useState<string | null>(null);
   console.log('userLogin', userLogin, 'userId', userId);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -65,6 +46,41 @@ export default function Navbar() {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      flexGrow: 1,
+      borderTop: '5px solid black',
+    },
+    title: {
+      flexGrow: 1,
+      textAlign: 'left',
+      color: (mode === 'dark') ? 'white' : 'black'
+    },
+    navButton: {
+      margin: theme.spacing(0, 1),
+      color: (mode === 'dark') ? 'white' : 'black'
+    },
+    rightNavButton: {
+      margin: theme.spacing(0, 1),
+      color: (mode === 'dark') ? 'white' : 'black'
+    },
+    appbar: {
+      backgroundColor: (mode === 'dark') ? '#4e342e' : 'white',
+      color: (mode === 'dark') ? 'white' : 'black'
+    },
+    darkThemeIcon: {
+      color: 'black',
+      cursor: 'pointer',
+    },
+    lightThemeIcon: {
+      color: 'white',
+      cursor: 'pointer',
+    },
+  }));
+
+  const classes = useStyles();
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -79,39 +95,42 @@ export default function Navbar() {
       return;
     }
     if (userLogin) {
-      
-      const name = userLogin.fullName
-      const userInitial = name?.charAt(0).toUpperCase()
-      
+      const name = userLogin.fullName;
+      const userInitial = name?.charAt(0).toUpperCase();
+
       setUserId(userLogin._id);
-      setInitial(userInitial)
+      setInitial(userInitial);
     }
   }, [userLogin]);
 
+  console.log('mode', mode)
+
   return (
     <div className={classes.root}>
-      <AppBar position='static' className={classes.appBar}>
+      <AppBar position='static' className={classes.appbar}
+     >
         <Toolbar>
           <Link to='/' style={{ textDecoration: 'none', marginRight: '2rem' }}>
             <Typography variant='h3' className={classes.title}>
               LIBRIS
             </Typography>
           </Link>
-         
+
           <Link to='/books' style={{ textDecoration: 'none' }}>
             <Button color='inherit' className={classes.navButton}>
               Books
             </Button>
           </Link>
-          {userId && userLogin !== null && 
-          <Link
-            to={userId ? `/${userId}/books` : `/mybooks`}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button color='inherit' className={classes.navButton}>
-              MyBooks
-            </Button>
-          </Link>}
+          {userId && userLogin !== null && (
+            <Link
+              to={userId ? `/${userId}/books` : `/mybooks`}
+              style={{ textDecoration: 'none' }}
+            >
+              <Button color='inherit' className={classes.navButton}>
+                MyBooks
+              </Button>
+            </Link>
+          )}
           <Link to='/bookshelves/all' style={{ textDecoration: 'none' }}>
             <Button color='inherit' className={classes.navButton}>
               BookShelves
@@ -175,7 +194,7 @@ export default function Navbar() {
                       fontWeight: '900',
                     }}
                   >
-                    <MenuItem onClick={handleClose}>
+                    <MenuItem onClick={handleClose} className={classes.appbar}>
                       <ListItemIcon>
                         <DashboardIcon fontSize='small' />
                       </ListItemIcon>
@@ -187,7 +206,7 @@ export default function Navbar() {
                   to={userId ? `/${userId}/books` : `/mybooks`}
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={handleClose} className={classes.appbar}>
                     <ListItemIcon>
                       <AutoStoriesIcon fontSize='small' />
                     </ListItemIcon>
@@ -198,7 +217,7 @@ export default function Navbar() {
                   to={`/${userId}/friends`}
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={handleClose} className={classes.appbar}>
                     <ListItemIcon>
                       <PeopleIcon fontSize='small' />
                     </ListItemIcon>
@@ -208,7 +227,7 @@ export default function Navbar() {
 
                 <Divider />
 
-                <MenuItem onClick={handleClose}>
+                <MenuItem onClick={handleClose} className={classes.appbar}>
                   <ListItemIcon>
                     <AddBoxIcon fontSize='small' />
                   </ListItemIcon>
@@ -218,7 +237,7 @@ export default function Navbar() {
                   to={`/${userId}/setting`}
                   style={{ textDecoration: 'none', color: 'black' }}
                 >
-                  <MenuItem onClick={handleClose}>
+                  <MenuItem onClick={handleClose} className={classes.appbar}>
                     <ListItemIcon>
                       <Settings fontSize='small' />
                     </ListItemIcon>
@@ -227,6 +246,7 @@ export default function Navbar() {
                 </Link>
 
                 <MenuItem
+                className={classes.appbar}
                   onClick={() => {
                     handleClose();
                     logoutHandler();
@@ -247,7 +267,19 @@ export default function Navbar() {
             </Link>
           )}
 
-          <Brightness4Icon className={classes.darkThemeIcon} />
+          <IconButton sx={{ ml: 1 }} color='inherit'>
+            {mode === 'light' ? (
+              <Brightness7Icon
+                onClick={() => toggleMode()}
+                className={classes.darkThemeIcon}
+              />
+            ) : (
+              <Brightness4Icon
+                onClick={() => toggleMode()}
+                className={classes.lightThemeIcon}
+              />
+            )}
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>

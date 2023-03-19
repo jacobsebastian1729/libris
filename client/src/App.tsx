@@ -18,35 +18,59 @@ import Friends from './components/Friends/Friends';
 import DashBoard from './components/DashBoard/DashBoard';
 import UserBoard from './components/DashBoard/UserBoard';
 import BooksBoard from './components/DashBoard/BooksBoard';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+
+const ColorModeContext = React.createContext({
+  toggleColorMode: () => {},
+  colorMode: 'light',
+});
 
 function App() {
+  const [mode, setMode] = React.useState<'light' | 'dark'>('light');
+
+  const toggleMode = () => {
+    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+  };
+
+  const theme = React.useMemo(
+    () =>
+      createTheme({
+        palette: {
+          mode,
+        },
+      }),
+    [mode]
+  );
+
   return (
-    <div className='App'>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/books' element={<Books />} />
-          <Route path='/books/:bookId' element={<BookDetail />} />
-          <Route path='/mybooks' element={<MyBooks />} />
-          <Route path='/:userId/books' element={<MyBooks />} />
-          <Route path='/:userId/achievment' element={<MyAchievement />} />
-          <Route path='/:userId/setting' element={<UserInformation />} />
-          <Route path='/bookshelves/all' element={<BookShelves />} />
-          <Route path='/login' element={<LogIn />} />
-          <Route path='/register' element={<Register />} />
-          <Route path='/:userId/friends' element={<Friends />} />
-          <Route
-            path='/bookshelves/:bookshelvesId'
-            element={<OneBookShelf />}
-          />
-          <Route path='/dashboard' element={<DashBoard />} />
-          <Route path='/dashboard/users' element={<UserBoard />} />
-          <Route path='/dashboard/books' element={<BooksBoard />} />
-        </Routes>
-        <Footer />
-      </BrowserRouter>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className='App' style={{backgroundColor: (mode === 'dark') ? '#3e2723' : 'white', color: (mode === 'dark') ? 'white' : 'black' }}>
+        <BrowserRouter>
+          <Navbar mode={mode} toggleMode={toggleMode} />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/books' element={<Books />} />
+            <Route path='/books/:bookId' element={<BookDetail />} />
+            <Route path='/mybooks' element={<MyBooks />} />
+            <Route path='/:userId/books' element={<MyBooks />} />
+            <Route path='/:userId/achievment' element={<MyAchievement />} />
+            <Route path='/:userId/setting' element={<UserInformation />} />
+            <Route path='/bookshelves/all' element={<BookShelves />} />
+            <Route path='/login' element={<LogIn mode={mode}/>} />
+            <Route path='/register' element={<Register mode={mode}/>} />
+            <Route path='/:userId/friends' element={<Friends />} />
+            <Route
+              path='/bookshelves/:bookshelvesId'
+              element={<OneBookShelf />}
+            />
+            <Route path='/dashboard' element={<DashBoard />} />
+            <Route path='/dashboard/users' element={<UserBoard />} />
+            <Route path='/dashboard/books' element={<BooksBoard />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </div>
+    </ThemeProvider>
   );
 }
 
