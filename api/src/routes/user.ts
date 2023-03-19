@@ -10,7 +10,7 @@ import {
   updatePasswordController,
   updateUserByIdController,
   changeUserStatusController,
-  userSubscribeAndChangeStatus
+  userSubscribeAndChangeStatus,
 } from '../controllers/user';
 
 const router = Router();
@@ -29,14 +29,18 @@ router.put(
   passport.authenticate('jwt', { session: false }),
   updatePasswordController
 );
-router.post('/:userId/:bookId', addBookToUserController)
+router.post('/:userId/:bookId', addBookToUserController);
 // router.post(
 //   '/google-login',
 //   passport.authenticate('google-id-token', { session: false }),
 //   googleAuthenticate
 // );
 
-router.put('/status/:userId', changeUserStatusController)
-router.put('/subscribe/:userId', userSubscribeAndChangeStatus)
+router.put(
+  '/status/:userId',
+  passport.authenticate('jwtAdmin', { session: false }),
+  changeUserStatusController
+);
+router.put('/subscribe/:userId', userSubscribeAndChangeStatus);
 
 export default router;

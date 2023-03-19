@@ -1,4 +1,5 @@
 import { Router } from "express";
+import passport from 'passport'
 import {
   createBook,
   getAllBooks,
@@ -7,7 +8,7 @@ import {
   updateBookById,
 } from "../controllers/book";
 const router = Router();
-router.post("/create", createBook);
+router.post("/create", passport.authenticate('jwtAdmin', { session: false }), createBook);
 router.get("/", getAllBooks);
 router.get("/:bookId", getBookByid);
 router.delete("/:bookId", deleteBookByid);
