@@ -45,7 +45,7 @@ export default function BooksList() {
       </div>
     );
   return (
-    <div className="container">
+    <div className="container ">
       <div style={{paddingTop: '3rem', paddingBottom: '3rem', paddingLeft: '7rem'}}>
       <Typography variant='h4'>You can find {result.length} books in total.</Typography>
       </div>

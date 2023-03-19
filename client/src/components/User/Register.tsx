@@ -44,7 +44,11 @@ const RegisterSchema = Yup.object().shape({
   //   [true], 'You need to accept the terms and conditions'),
 });
 
-export default function Register() {
+type Prop ={
+  mode: string
+}
+
+export default function Register({mode}: Prop) {
   const [open, setOpen] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState<boolean>(false);
   const message = useSelector((state: RootState) => state.user.serverMessage);
@@ -87,9 +91,9 @@ export default function Register() {
   );
   return (
     <div className='login-div'>
-      <Card sx={{ width: 500, textAlign: 'center' }}>
+      <Card sx={{ width: 500, textAlign: 'center' , backgroundColor: (mode==='dark')? '#4e342e': 'white'}}>
         <CardHeader
-          title='Welcome to <LibraryName>'
+          title='Welcome to LIBRIS'
           sx={{ borderBottom: '1px solid black' }}
         />
         <CardContent

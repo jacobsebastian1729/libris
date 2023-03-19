@@ -81,6 +81,14 @@ export const logInWithPassword = async (req: Request, res: Response) => {
       });
       return;
     }
+
+    if (userData.status === 'banned') {
+      res.status(403).json({
+        message: 'Cannot login! You are banned by Admin.',
+      });
+      return;
+    }
+
     const plainPassword = req.body.password;
     const databasePassword = userData.password;
 
