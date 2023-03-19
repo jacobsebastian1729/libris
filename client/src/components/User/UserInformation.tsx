@@ -145,7 +145,15 @@ export default function UserInformation() {
               <Avatar
                 alt={user?.fullName}
                 src={user?.profile_img}
-                sx={{ width: 150, height: 150 }}
+                sx={{
+                  width: 150,
+                  height: 150,
+                  marginLeft: '3rem',
+                  marginTop: '1rem',
+                  marginBottom: '1rem',
+                  zIndex: '1',
+                  border: '3px solid white',
+                }}
               />
             ) : (
               <Avatar
@@ -199,10 +207,12 @@ export default function UserInformation() {
                             onChange={handleChange}
                           />
                           {errors.password ? (
-                          <Typography variant='body2' color={red[600]}>*{errors.password}</Typography>
-                        ) : null}
+                            <Typography variant='body2' color={red[600]}>
+                              *{errors.password}
+                            </Typography>
+                          ) : null}
                         </Grid>
-                        
+
                         <Grid item xs={12} sm={5}>
                           <TextField
                             required
@@ -213,19 +223,16 @@ export default function UserInformation() {
                             variant='standard'
                             onChange={handleChange}
                           />
-                           {errors.confirmPassword ? (
-                          <Typography color={red[600]} variant='body2'>
-                            *{errors.confirmPassword}
-                          </Typography>
-                        ) : null}
+                          {errors.confirmPassword ? (
+                            <Typography color={red[600]} variant='body2'>
+                              *{errors.confirmPassword}
+                            </Typography>
+                          ) : null}
                         </Grid>
-                       
                       </Grid>
                       <DialogActions>
                         <Button onClick={pwClose}>Close</Button>
-                        <Button type='submit'>
-                          Save
-                        </Button>
+                        <Button type='submit'>Save</Button>
                       </DialogActions>
                     </Form>
                   )}
