@@ -19,6 +19,7 @@ import DashBoard from './components/DashBoard/DashBoard';
 import UserBoard from './components/DashBoard/UserBoard';
 import BooksBoard from './components/DashBoard/BooksBoard';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
+import Subscription from './components/Subscription/Subscription';
 
 const ColorModeContext = React.createContext({
   toggleColorMode: () => {},
@@ -66,6 +67,7 @@ function App() {
             <Route path='/dashboard' element={<DashBoard />} />
             <Route path='/dashboard/users' element={<UserBoard />} />
             <Route path='/dashboard/books' element={<BooksBoard />} />
+            <Route path='/subscription' element={<Subscription />} />
           </Routes>
           <Footer />
         </BrowserRouter>
