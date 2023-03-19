@@ -55,7 +55,7 @@ function App() {
             <Route path='/mybooks' element={<MyBooks />} />
             <Route path='/:userId/books' element={<MyBooks />} />
             <Route path='/:userId/achievment' element={<MyAchievement />} />
-            <Route path='/:userId/setting' element={<UserInformation />} />
+            <Route path='/:userId/setting' element={<UserInformation mode={mode}/>} />
             <Route path='/bookshelves/all' element={<BookShelves />} />
             <Route path='/login' element={<LogIn mode={mode}/>} />
             <Route path='/register' element={<Register mode={mode}/>} />
@@ -64,10 +64,10 @@ function App() {
               path='/bookshelves/:bookshelvesId'
               element={<OneBookShelf />}
             />
-            <Route path='/dashboard' element={<DashBoard />} />
+            <Route path='/dashboard' element={<DashBoard mode={mode}/>} />
             <Route path='/dashboard/users' element={<UserBoard />} />
             <Route path='/dashboard/books' element={<BooksBoard />} />
-            <Route path='/subscription' element={<Subscription />} />
+            <Route path='/subscription' element={<Subscription mode={mode}/>} />
           </Routes>
           <Footer />
         </BrowserRouter>

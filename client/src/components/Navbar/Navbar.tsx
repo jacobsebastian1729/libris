@@ -190,7 +190,13 @@ export default function Navbar({ mode, toggleMode }: Prop) {
                       fontWeight: '900',
                     }}
                   >
-                    <MenuItem onClick={handleClose} className={classes.appbar}>
+                    <MenuItem
+                      onClick={handleClose}
+                      style={{
+                        backgroundColor: mode === 'dark' ? 'green' : 'white',
+                        color: mode === 'dark' ? 'white' : 'green',
+                      }}
+                    >
                       <ListItemIcon>
                         <DashboardIcon fontSize='small' />
                       </ListItemIcon>

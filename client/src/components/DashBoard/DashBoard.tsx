@@ -8,7 +8,11 @@ import Typography from '@mui/material/Typography';
 import './DashBoard.css';
 import { Link } from 'react-router-dom';
 
-export default function DashBoard() {
+type Prop = {
+  mode: string;
+}
+
+export default function DashBoard({mode}: Prop) {
   return (
     <div>
       <div style={{textAlign: 'center', marginTop: '2rem'}}>
