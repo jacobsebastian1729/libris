@@ -69,8 +69,8 @@ export default function UserInformation({mode}:Prop) {
   const userFollowingList = useSelector((state: RootState) => state.followList.FollowingList)
   const userFollowersList = useSelector((state: RootState) => state.followList.FollowersList)
 
-  const userFollowingUrl = `http://localhost:8000/following/followers/${userId}`
-  const userFollowersUrl = `http://localhost:8000/following/followings/${userId}`
+  const userFollowingUrl = `http://localhost:8000/following/followings/${userId}`
+  const userFollowersUrl = `http://localhost:8000/following/followers/${userId}`
 
   useEffect(() => {
     dispatch(fetchUserFollowing(userFollowingUrl));
