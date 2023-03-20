@@ -32,7 +32,6 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-![Screenshot](src/assets/Libris.png)
 
 The objective of this project was to develop from scratch a fullstack project built with only with the following stack:
 
@@ -81,7 +80,7 @@ The objective of this project was to develop from scratch a fullstack project bu
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[View Demo]:
+
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
 [React-url]: https://reactjs.org/
 [Redux]: https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white
