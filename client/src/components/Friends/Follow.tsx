@@ -10,7 +10,7 @@ export default function Follow() {
 
   const userFollowingList = useSelector((state: RootState) => state.followList.FollowingList)
 
-  
+  console.log(userFollowingList, 'check')
 
 
   return (
