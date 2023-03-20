@@ -15,7 +15,7 @@ app.use(Express.json());
 app.use(cors());
 app.use(passport.initialize());
 passport.use(jwtStrategy)
-passport.use('jwtAdmin', jwtAdminStrategy);
+// passport.use('jwtAdmin', jwtAdminStrategy);
 
 // routes
 app.use("/bookshelves", bookShelfRouter)

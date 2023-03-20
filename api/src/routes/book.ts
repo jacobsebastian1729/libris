@@ -8,7 +8,7 @@ import {
   updateBookById,
 } from "../controllers/book";
 const router = Router();
-router.post("/create", passport.authenticate('jwtAdmin', { session: false }), createBook);
+router.post("/create", createBook);
 router.get("/", getAllBooks);
 router.get("/:bookId", getBookByid);
 router.delete("/:bookId", deleteBookByid);
