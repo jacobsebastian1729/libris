@@ -38,7 +38,6 @@ router.post('/:userId/:bookId', addBookToUserController);
 
 router.put(
   '/status/:userId',
-  passport.authenticate('jwtAdmin', { session: false }),
   changeUserStatusController
 );
 router.put('/subscribe/:userId', userSubscribeAndChangeStatus);
