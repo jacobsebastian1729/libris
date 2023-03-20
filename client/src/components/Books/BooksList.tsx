@@ -22,6 +22,7 @@ export default function BooksList() {
     (state: RootState) => state.searchBook.userInput
   );
   const [filteredBooks, setFilteredBooks] = useState<BookType[]>([]);
+  const [showFiltered, setShowFiltered] = useState(false);
 
   useEffect(() => {
     const filteredBooks = bookList.filter(
@@ -31,24 +32,26 @@ export default function BooksList() {
     );
 
     setFilteredBooks(filteredBooks);
+    setShowFiltered(false);
   }, [getUserData, bookList]);
 
   const handleGenreClick = (genre: string) => {
-    const filteredResult = filteredBooks.filter((book) => book.genre === genre);
+    const filteredResult = bookList.filter((book) => book.genre === genre);
     setFilteredBooks(filteredResult);
+    setShowFiltered(true);
   };
 
   const handleShowAllClick = () => {
-    setFilteredBooks(
-      bookList.filter(
-        (bookItem) =>
-          bookItem.title.toLowerCase().includes(getUserData.toLowerCase()) ||
-          bookItem.author.toLowerCase().includes(getUserData.toLowerCase())
-      )
+    setShowFiltered(false);
+  }
+  
+    const result = showFiltered ? filteredBooks : bookList.filter(
+      (bookItem) =>
+        bookItem.title.toLowerCase().includes(getUserData.toLowerCase()) ||
+        bookItem.author.toLowerCase().includes(getUserData.toLowerCase())
     );
-  };
-
-  const result = getUserData === "" ? bookList : filteredBooks;
+  
+  // const result = getUserData === "" ? bookList : filteredBooks;
   if (!result.length) {
     return <div className="search-message">No matching books found.</div>;
   }
@@ -72,6 +75,7 @@ export default function BooksList() {
         {result.map((item, index) => (
           <BooksListItem key={index} bookItem={item} />
         ))}
+ 
       </div>
     </div>
   );
