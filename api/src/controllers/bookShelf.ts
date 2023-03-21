@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
 import Book from '../models/Book';
 
-import BookShelf, { BookShelfDocument } from '../models/Bookshelf';
-import BookShelfService from '../services/bookShelf';
+import BookShelf, { BookShelfDocument } from '../models/BookShelf';
 
 export const addBookToBookShelfController = async (
   req: Request,
@@ -32,7 +31,7 @@ export const addBookToBookShelfController = async (
     }
 
     const existingBookIndex = bookshelfOfUser.books.findIndex(
-      (bookId) => bookId.toString() === book._id.toString()
+      (bookId: any) => bookId.toString() === book._id.toString()
     );
 
     if (existingBookIndex !== -1) {
@@ -106,7 +105,7 @@ export const addBookToBookShelfWithBookId = async (
       }
       console.log(bookshelfOfUser.books, 'Check this out!')
       const existingBookIndex = bookshelfOfUser.books.findIndex(
-        (id) => id.toString() === bookId.toString()
+        (id:any) => id.toString() === bookId.toString()
       );
   
       if (bookshelfOfUser && existingBookIndex !== -1) {
