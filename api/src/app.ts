@@ -6,7 +6,7 @@ import passport from 'passport';
 import { jwtAdminStrategy, jwtStrategy } from './config/passport';
 import userRouter from './routes/user';
 import commentsRouter from "./routes/comments";
-import bookShelfRouter from "./routes/bookShelf"
+import bookShelfRouter from "./routes/bookshelf"
 import booksRouter from "./routes/book";
 import followingRouter from './routes/following'
 
