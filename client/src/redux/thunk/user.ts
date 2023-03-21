@@ -6,7 +6,7 @@ import { userActions } from '../slices/user';
 import { LoginUserType, UserType } from '../../types/type';
 import { PORT } from '../../port/Port';
 
-const url = `http://localhost:${PORT}/user`;
+const url = `https://back-end-libris.onrender.com/user`;
 
 export function registerUser(user: UserType) {
   return async (dispatch: AppDispatch) => {
