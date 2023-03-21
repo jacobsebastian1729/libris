@@ -3,7 +3,7 @@ import { AppDispatch } from "../store";
 
 import { bookShelfListActions } from "../slices/bookShelf";
 
-const url = "http://localhost:8000/bookshelves/";
+const url = "https://back-end-libris.onrender.com/bookshelves/";
 
 export function getBookShelfList() {
     return async (dispatch: AppDispatch) => {

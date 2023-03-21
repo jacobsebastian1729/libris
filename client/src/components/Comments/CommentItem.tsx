@@ -26,7 +26,8 @@ type CommentDetail = {
 export default function CommentItem({ prop }: CommentDetail) {
   const [childComments, setChildComments] = useState<CommentType[]>([]);
 
-  const commentIdUrl = `http://localhost:8000/comments/childcomments/${prop._id}`;
+  // const commentIdUrl = `http://localhost:8000/comments/childcomments/${prop._id}`;
+  const commentIdUrl = `https://back-end-libris.onrender.com/comments/childcomments/${prop._id}`;
 
   const userInfo = useSelector((state: RootState) => state.user.loginUser);
   const userId = userInfo?._id as string
@@ -72,7 +73,8 @@ export default function CommentItem({ prop }: CommentDetail) {
   //
 
   const userToken = localStorage.getItem('userToken');
-  const userIdUrl = `http://localhost:8000/comments/${userInfo?._id}`;
+  // const userIdUrl = `http://localhost:8000/comments/${userInfo?._id}`;
+  const userIdUrl = `https://back-end-libris.onrender.com/comments/${userInfo?._id}`;
 
   const [value, setValue] = useState('');
 

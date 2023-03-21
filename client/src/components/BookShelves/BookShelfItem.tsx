@@ -61,7 +61,8 @@ export default function BookShelfItem({prop}: OneBookShelfs) {
 
   const [message, setMessage] = React.useState('');
 
-  const followingIdUrl = `http://localhost:8000/following/${userInfo?._id}`;
+  // const followingIdUrl = `http://localhost:8000/following/${userInfo?._id}`;
+  const followingIdUrl = `https://back-end-libris.onrender.com/following/${userInfo?._id}`;
 
   function addToFollowing(){
     if(userInfo?._id != prop.userId._id){

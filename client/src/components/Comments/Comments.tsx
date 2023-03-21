@@ -35,7 +35,8 @@ export default function ProductComment({ prop, userId }: ProductDetails) {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const commentIdUrl = `http://localhost:8000/comments/parentcomments/${prop._id}`;
+  // const commentIdUrl = `http://localhost:8000/comments/parentcomments/${prop._id}`;
+  const commentIdUrl = `https://back-end-libris.onrender.com/comments/parentcomments/${prop._id}`;
 
   useEffect(() => {
     dispatch(fetchProductComment(commentIdUrl));
@@ -74,7 +75,8 @@ export default function ProductComment({ prop, userId }: ProductDetails) {
   }, [])
 
   //
-  const productIdUrl = `http://localhost:8000/comments/${userInfo?._id}`;
+  // const productIdUrl = `http://localhost:8000/comments/${userInfo?._id}`;
+  const productIdUrl = `https://back-end-libris.onrender.com/comments/${userInfo?._id}`;
 
   function postComment() {
     if (value !== '') {

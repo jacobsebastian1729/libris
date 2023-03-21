@@ -4,7 +4,7 @@ import { bookActions } from "../slices/book";
 import axios from "axios";
 import { BookType } from "../../types/type";
 
-const url = `http://localhost:${PORT}/books`;
+const url = `https://back-end-libris.onrender.com/books`;
 export function fetchbookData() {
   return async (dispatch: AppDispatch) => {
     dispatch(bookActions.getBookDataPending(true));

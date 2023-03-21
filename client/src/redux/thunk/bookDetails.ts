@@ -3,7 +3,7 @@ import { bookActions } from "../slices/book";
 import { PORT } from "../../port/Port";
 
 export function fetchBookDetail(bookId: string | undefined) {
-  const url = `http://localhost:${PORT}/books/${bookId}`;
+  const url = `https://back-end-libris.onrender.com/books/${bookId}`;
   return async (dispatch: AppDispatch) => {
     const response = await fetch(url);
     const data = await response.json();
