@@ -40,6 +40,7 @@ router.put(
   '/status/:userId',
   changeUserStatusController
 );
+// passport.authenticate('jwtAdmin', { session: false }),
 router.put('/subscribe/:userId', userSubscribeAndChangeStatus);
 
 export default router;
