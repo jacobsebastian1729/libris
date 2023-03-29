@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
-    <a href="">
-    <img src="https://img.favpng.com/18/21/14/bookcase-furniture-computer-icons-shelf-png-favpng-SrBz2n5dJdTuPBxseHEiJQf2S.jpg" width="80" height="80" alt="Logo"/>
+    <a href="https://front-end-libris.onrender.com/">
+        <img src="https://www.freepnglogos.com/uploads/book-png/colorful-books-transparent-background-12.png" width="200" alt="Logo"/>
     </a>
 
 
